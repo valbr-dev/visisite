@@ -27,7 +27,7 @@
         <a href="#projects">Проекты</a>
         <a href="#contacts">Контакты</a>
       </nav>
-      <a class="header-contact" href="mailto:hello@monolit.example">Обсудить проект <span>↗</span></a>
+      <a class="header-contact" href="mailto:valerybragin1999@gmail.com">Обсудить проект <span>↗</span></a>
     </div>
   </header>
 
@@ -150,9 +150,29 @@
     </section>
 
     <section class="contact-band" id="contacts">
-      <div class="container contact-inner">
-        <div><span class="section-kicker section-kicker-light">ВАШ ПРОЕКТ НАЧИНАЕТСЯ ЗДЕСЬ</span><h2>Есть идея?<br><em>Давайте обсудим.</em></h2></div>
-        <a class="button button-light" href="mailto:hello@monolit.example?subject=Обсуждение%20проекта">Связаться с нами <span>↗</span></a>
+      <div class="container contact-layout">
+        <div class="contact-copy">
+          <span class="section-kicker section-kicker-light">ВАШ ПРОЕКТ НАЧИНАЕТСЯ ЗДЕСЬ</span>
+          <h2>Есть идея?<br><em>Давайте обсудим.</em></h2>
+          <p>Расскажите, что хотите построить или изменить. Мы получим вашу заявку на почту и свяжемся удобным для вас способом.</p>
+          <a class="contact-direct" href="mailto:valerybragin1999@gmail.com">valerybragin1999@gmail.com <span>↗</span></a>
+        </div>
+        <form class="contact-form" id="contact-form" action="https://formsubmit.co/valerybragin1999@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Новая заявка с сайта МОНОЛИТ">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="true">
+          <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="form-row">
+            <label>ФИО <span>*</span><input type="text" name="ФИО" placeholder="Как к вам обращаться" autocomplete="name" required></label>
+            <label>Контакты для связи <span>*</span><input type="text" name="Контакты" placeholder="Телефон, Telegram, MAX, VK, почта..." required></label>
+          </div>
+          <label>Что требуется? <span>*</span><textarea name="Описание задачи" rows="4" placeholder="Например: построить дом, сделать ремонт, разработать проект..." required></textarea></label>
+          <label>На какую сумму рассчитываете?
+            <input type="text" name="Бюджет" placeholder="Например: 3–5 млн ₽ или пока нужна оценка">
+          </label>
+          <button class="button button-form" type="submit">Отправить заявку <span>↗</span></button>
+          <p class="form-privacy">Нажимая кнопку, вы соглашаетесь на обработку указанных данных для ответа на заявку.</p>
+        </form>
       </div>
     </section>
   </main>
@@ -161,7 +181,7 @@
     <div class="container footer-top">
       <a class="brand brand-footer" href="#top"><span class="brand-symbol">М</span><span class="brand-name">МОНОЛИТ<small>СТРОИТЕЛЬНАЯ КОМПАНИЯ</small></span></a>
       <p>Создаём пространство<br>для больших планов.</p>
-      <a class="footer-email" href="mailto:hello@monolit.example">hello@monolit.example <span>↗</span></a>
+      <a class="footer-email" href="mailto:valerybragin1999@gmail.com">valerybragin1999@gmail.com <span>↗</span></a>
     </div>
     <div class="container footer-bottom"><span>© <span id="year">2026</span> МОНОЛИТ. Демонстрационный сайт.</span><a href="#top">Наверх ↑</a><span>Сделано с вниманием к деталям.</span></div>
   </footer>
