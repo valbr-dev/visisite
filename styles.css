@@ -1809,3 +1809,17 @@ h1 em, h2 em { color: var(--accent); }
     text-align: left;
   }
 }
+
+
+/* Give the horizontal mobile navigation more width */
+@media (max-width: 650px), (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .main-nav {
+    width: min(520px, calc(100vw - 92px));
+  }
+}
+
+@media (max-width: 360px) {
+  .main-nav {
+    width: calc(100vw - 82px);
+  }
+}
