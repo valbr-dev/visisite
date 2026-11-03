@@ -644,3 +644,53 @@ h1 em, h2 em { color: var(--accent); }
     background: #302c28;
   }
 }
+
+/* Final hero statement layout: vertical on desktop, aligned under actions on mobile */
+@media (min-width: 651px) {
+  .hero-vertical {
+    position: absolute;
+    top: 50%;
+    right: clamp(24px, 4vw, 58px);
+    bottom: auto;
+    left: auto;
+    width: auto;
+    max-width: none;
+    max-height: calc(100% - 150px);
+    padding: 14px 18px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    white-space: nowrap;
+    border: 0;
+    border-right: 3px solid var(--accent);
+    border-bottom: 0;
+    font-size: clamp(16px, 2vw, 28px);
+    line-height: 1.15;
+    letter-spacing: .035em;
+    transform: translateY(-50%);
+  }
+}
+@media (max-width: 650px) {
+  .hero-vertical {
+    position: relative;
+    display: block;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    align-self: flex-start;
+    width: min(390px, calc(100% - 40px));
+    max-width: none;
+    margin: 18px 0 0 max(20px, calc((100% - 520px) / 2));
+    padding: 11px 16px;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: normal;
+    text-wrap: balance;
+    border: 0;
+    border-bottom: 3px solid var(--accent);
+    font-size: 13px;
+    line-height: 1.3;
+    letter-spacing: .07em;
+    transform: none;
+  }
+}
