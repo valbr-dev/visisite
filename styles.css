@@ -1030,15 +1030,15 @@ h1 em, h2 em { color: var(--accent); }
 }
 
 
-/* Put the approach text column back on the left */
+/* Restore the original approach section: photo on the left, text on the right */
 @media (min-width: 651px) {
-  .project-content {
+  .project-photo {
     grid-column: 1;
     grid-row: 1;
-    justify-content: flex-start;
   }
-  .project-photo {
+  .project-content {
     grid-column: 2;
     grid-row: 1;
+    justify-content: center;
   }
 }
