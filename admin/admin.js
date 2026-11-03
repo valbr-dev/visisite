@@ -55,8 +55,9 @@
     const value = String(input || "").trim();
     if (!value) return "";
     if (/^https?:\/\//i.test(value) || value.startsWith("data:")) return value;
-    if (/^(images|\.\.\/images|\/visisite\/images)\//i.test(value)) {
-      const clean = value.replace(/^\/+/, "").replace(/^\.\.\//, "");
+    if (value.startsWith("/visisite/images/")) return new URL(value, window.location.origin).href;
+    if (/^(images|\.\.\/images)\//i.test(value)) {
+      const clean = value.replace(/^\.\.\//, "");
       return new URL("../" + clean, window.location.href).href;
     }
     return value;
