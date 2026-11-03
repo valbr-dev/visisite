@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171d19">
+  <meta name="description" content="Пример проекта компании МОНОЛИТ: современный загородный дом, этапы строительства, архитектурные решения и материалы.">
+  <title>Примеры работ — МОНОЛИТ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .case-hero{position:relative;min-height:680px;display:flex;align-items:end;overflow:hidden;background:#202922;color:#fff}
+    .case-hero:before{content:"";position:absolute;inset:0;background:url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=90") center 54%/cover no-repeat;transform:scale(1.02)}
+    .case-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,20,16,.82),rgba(14,20,16,.18)),linear-gradient(0deg,rgba(14,20,16,.72),transparent 65%)}
+    .case-hero-content{position:relative;z-index:1;padding-top:170px;padding-bottom:76px}
+    .case-hero h1{max-width:850px;margin:24px 0;font-size:clamp(48px,7vw,88px);line-height:.98;letter-spacing:-.075em;font-weight:600}
+    .case-hero h1 em{color:var(--accent);font-style:normal}
+    .case-lead{max-width:550px;color:rgba(255,255,255,.76);font-size:14px;line-height:1.9}
+    .case-meta{display:flex;flex-wrap:wrap;gap:42px;margin-top:48px;padding-top:22px;border-top:1px solid rgba(255,255,255,.28)}
+    .case-meta div{display:flex;flex-direction:column;gap:7px}
+    .case-meta strong{font-size:17px}.case-meta span{color:rgba(255,255,255,.58);font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+    .back-link{display:inline-flex;gap:12px;align-items:center;margin-bottom:28px;color:rgba(255,255,255,.8);font-size:11px;font-weight:700}
+    .back-link:hover{color:var(--accent)}
+    .case-intro{display:grid;grid-template-columns:.8fr 1.2fr;gap:90px}
+    .case-intro h2,.case-gallery h2,.case-process h2{margin:18px 0 0;font-size:clamp(35px,4.8vw,58px);line-height:1.08;letter-spacing:-.065em;font-weight:600}
+    .case-intro h2 em,.case-gallery h2 em,.case-process h2 em{color:#829c47;font-style:normal}
+    .case-description{max-width:700px;color:var(--muted);font-size:13px;line-height:2}
+    .case-description p{margin:0 0 17px}
+    .case-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:40px;background:var(--line);border:1px solid var(--line)}
+    .case-fact{padding:22px;background:var(--paper)}
+    .case-fact strong{display:block;margin-bottom:7px;font-size:22px;letter-spacing:-.05em}
+    .case-fact span{color:var(--muted);font-size:10px}
+    .case-gallery{background:#e9eae3}
+    .case-gallery-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:42px}
+    .case-gallery-head p{max-width:350px;margin:0;color:var(--muted);font-size:12px;line-height:1.9}
+    .case-images{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:15px}
+    .case-image{height:350px;position:relative;overflow:hidden;background:#d4d9d1}
+    .case-image img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .55s ease,filter .35s ease}
+    .case-image:hover img{transform:scale(1.07);filter:saturate(1.08)}
+    .case-image:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(15,21,17,.55));pointer-events:none}
+    .case-image figcaption{position:absolute;z-index:1;bottom:17px;left:18px;color:#fff;font-size:11px;font-weight:700}
+    .case-image figcaption span{margin-right:10px;color:var(--accent)}
+    .case-disclaimer{margin:18px 0 0;color:var(--muted);font-size:10px;line-height:1.7}
+    .case-process-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:90px}
+    .case-process-copy{max-width:380px;color:var(--muted);font-size:12px;line-height:1.9}
+    .case-stages{border-top:1px solid var(--line)}
+    .case-stage{display:grid;grid-template-columns:55px 1fr;gap:20px;padding:23px 0;border-bottom:1px solid var(--line)}
+    .case-stage>span{color:#829c47;font-size:10px;font-weight:800}
+    .case-stage h3{margin:0 0 7px;font-size:15px}
+    .case-stage p{margin:0;color:var(--muted);font-size:11px;line-height:1.8}
+    .case-cta{padding:86px 0;background:var(--accent)}
+    .case-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:35px}
+    .case-cta h2{margin:0;font-size:clamp(36px,5vw,58px);line-height:1.05;letter-spacing:-.065em;font-weight:600}
+    .case-cta p{max-width:370px;color:rgba(32,38,34,.72);font-size:12px;line-height:1.9}
+    .case-cta .button{background:var(--dark);color:#fff;white-space:nowrap}
+    .case-footer-link{color:var(--accent)!important}
+    @media(max-width:800px){.case-intro,.case-process-layout{grid-template-columns:1fr;gap:30px}.case-images{grid-template-columns:1fr 1fr}.case-image:first-child{grid-column:1/-1;height:330px}.case-image{height:260px}.case-gallery-head{align-items:start;flex-direction:column}.case-cta-inner{align-items:flex-start;flex-direction:column}}
+    @media(max-width:600px){.case-hero{min-height:700px}.case-hero-content{padding-bottom:55px}.case-meta{gap:22px}.case-meta strong{font-size:15px}.case-facts{grid-template-columns:1fr}.case-fact{padding:16px 18px}.case-images{grid-template-columns:1fr}.case-image:first-child{grid-column:auto;height:280px}.case-image{height:250px}.case-cta{padding:65px 0}}
+  </style>
+</head>
+<body>
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="index.html" aria-label="МОНОЛИТ — на главную"><span class="brand-symbol">М</span><span class="brand-name">МОНОЛИТ<small>СТРОИТЕЛЬНАЯ КОМПАНИЯ</small></span></a>
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+      <nav class="main-nav" id="main-nav" aria-label="Основная навигация">
+        <a href="index.html#services">Услуги</a><a href="index.html#about">О компании</a><a href="examples.html">Примеры работ</a><a href="index.html#contacts">Контакты</a>
+      </nav>
+      <a class="header-contact" href="index.html#contacts">Обсудить проект <span>↗</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="case-hero">
+      <div class="container case-hero-content">
+        <a class="back-link" href="index.html">← На главную</a>
+        <div class="eyebrow eyebrow-light"><span></span> ПРИМЕР ПРОЕКТА / ЧАСТНОЕ СТРОИТЕЛЬСТВО</div>
+        <h1>Дом, в котором<br><em>всё на своём месте.</em></h1>
+        <p class="case-lead">Концепция современного загородного дома с просторной общей зоной, панорамным остеклением и лаконичной отделкой. Показываем, как может быть устроен проект — от идеи до финальных деталей.</p>
+        <div class="case-meta">
+          <div><strong>180 м²</strong><span>Площадь дома</span></div>
+          <div><strong>1 этаж</strong><span>Формат проекта</span></div>
+          <div><strong>Современный</strong><span>Архитектурный стиль</span></div>
+          <div><strong>Под ключ</strong><span>Формат работ</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad">
+      <div class="container case-intro">
+        <div><span class="section-kicker">01 / ЗАДАЧА И РЕШЕНИЕ</span><h2>Больше света.<br><em>Больше свободы.</em></h2></div>
+        <div class="case-description">
+          <p>В основе этого демонстрационного примера — одноэтажный дом для семьи, которой важно объединить кухню, столовую и гостиную в общее пространство, сохранив приватность спален.</p>
+          <p>Архитектура строится на простых объёмах, спокойной палитре и больших окнах. Планировка предусматривает удобную входную группу, технические помещения и выход на террасу.</p>
+          <p>На этапе подготовки подобного проекта уточняются особенности участка, состав семьи, инженерные требования и бюджет. После этого формируются рабочая документация, смета и календарный план.</p>
+          <div class="case-facts">
+            <div class="case-fact"><strong>01</strong><span>Открытая общая зона</span></div>
+            <div class="case-fact"><strong>02</strong><span>Приватный блок спален</span></div>
+            <div class="case-fact"><strong>03</strong><span>Выход на террасу</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-gallery section-pad">
+      <div class="container">
+        <div class="case-gallery-head">
+          <div><span class="section-kicker">02 / ВИЗУАЛИЗАЦИЯ</span><h2>Образ будущего<br><em>пространства.</em></h2></div>
+          <p>Несколько ракурсов помогают оценить архитектуру, настроение интерьера и характер материалов.</p>
+        </div>
+        <div class="case-images">
+          <figure class="case-image"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85" alt="Современный загородный дом с лаконичной архитектурой" loading="lazy"><figcaption><span>01</span> Архитектура дома</figcaption></figure>
+          <figure class="case-image"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85" alt="Современная кухня и обеденная зона" loading="lazy"><figcaption><span>02</span> Общая зона</figcaption></figure>
+          <figure class="case-image"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85" alt="Современная гостиная с натуральными материалами" loading="lazy"><figcaption><span>03</span> Интерьер</figcaption></figure>
+        </div>
+        <p class="case-disclaimer">Это демонстрационный пример оформления проекта. Изображения — иллюстративные фотографии, не подтверждение выполненного компанией объекта. Площадь и характеристики приведены для примера.</p>
+      </div>
+    </section>
+
+    <section class="section-pad case-process">
+      <div class="container case-process-layout">
+        <div><span class="section-kicker">03 / ЭТАПЫ РАБОТ</span><h2>От первого эскиза<br><em>до готового дома.</em></h2><p class="case-process-copy">Состав и последовательность этапов определяются после обследования участка и согласования технического задания.</p></div>
+        <div class="case-stages">
+          <div class="case-stage"><span>01</span><div><h3>Подготовка и проектирование</h3><p>Изучение участка, планировка, архитектурная концепция и рабочие чертежи.</p></div></div>
+          <div class="case-stage"><span>02</span><div><h3>Фундамент и коробка</h3><p>Подготовка основания, устройство фундамента, возведение стен и перекрытий.</p></div></div>
+          <div class="case-stage"><span>03</span><div><h3>Кровля, окна и инженерия</h3><p>Закрытие теплового контура, монтаж окон и прокладка инженерных коммуникаций.</p></div></div>
+          <div class="case-stage"><span>04</span><div><h3>Отделка и сдача</h3><p>Внутренние и наружные отделочные работы, проверка систем и приёмка результата.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-cta">
+      <div class="container case-cta-inner">
+        <div><span class="section-kicker">ВАША ИДЕЯ МОЖЕТ СТАТЬ СЛЕДУЮЩИМ ПРОЕКТОМ</span><h2>Обсудим ваш<br>будущий дом?</h2></div>
+        <div><p>Расскажите о задаче — обсудим возможные решения, состав работ и дальнейшие шаги.</p><a class="button" href="index.html#contacts">Оставить заявку <span>↗</span></a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-top">
+      <a class="brand brand-footer" href="index.html"><span class="brand-symbol">М</span><span class="brand-name">МОНОЛИТ<small>СТРОИТЕЛЬНАЯ КОМПАНИЯ</small></span></a>
+      <p>Создаём пространство<br>для больших планов.</p>
+      <a class="footer-email" href="index.html#contacts">Связаться с нами <span>↗</span></a>
+    </div>
+    <div class="container footer-bottom"><span>© 2026 МОНОЛИТ. Демонстрационный сайт.</span><a href="index.html">На главную ↑</a><a class="case-footer-link" href="examples.html">Примеры работ</a></div>
+  </footer>
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navigation = document.querySelector('.main-nav');
+    if (menuButton && navigation) {
+      menuButton.addEventListener('click', () => {
+        const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', String(!isOpen));
+        navigation.classList.toggle('is-open', !isOpen);
+      });
+    }
+  </script>
+</body>
+</html>
