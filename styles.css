@@ -1619,3 +1619,70 @@ h1 em, h2 em { color: var(--accent); }
     color: var(--accent);
   }
 }
+
+
+/* Give desktop navigation items enough room and prevent label overflow */
+@media (min-width: 901px) {
+  .header-inner {
+    gap: 18px;
+  }
+
+  .main-nav {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 6px;
+  }
+
+  .main-nav a {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 52px;
+    padding: 7px 13px;
+    gap: 9px;
+  }
+
+  .nav-icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+  }
+
+  .nav-label {
+    min-width: 0;
+    min-height: 34px;
+    padding: 0 2px;
+    font-size: 13px;
+    letter-spacing: -.035em;
+    white-space: nowrap;
+  }
+
+  .header-contact {
+    flex: 0 0 auto;
+    min-height: 52px;
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1120px) {
+  .header-inner {
+    gap: 12px;
+  }
+
+  .main-nav {
+    gap: 4px;
+  }
+
+  .main-nav a {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  .nav-label {
+    font-size: 12px;
+  }
+
+  .header-contact {
+    padding-inline: 13px;
+    font-size: 12px;
+  }
+}
