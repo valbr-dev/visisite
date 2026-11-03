@@ -1979,3 +1979,13 @@ h1 em, h2 em { color: var(--accent); }
     height: 27px;
   }
 }
+
+
+/* Keep the mobile drop-down panel aligned to the right edge */
+@media (max-width: 650px), (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .main-nav {
+    right: 0;
+    left: auto;
+    margin-left: auto;
+  }
+}
