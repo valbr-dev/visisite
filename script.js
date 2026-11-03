@@ -20,3 +20,46 @@ if (menuButton && navigation) {
 
 const year = document.querySelector("#year");
 if (year) year.textContent = new Date().getFullYear();
+
+// Contact form: submits to a Google Apps Script web app through a hidden iframe.
+const contactForm = document.querySelector("#contact-form");
+const contactFrame = document.querySelector("#contact-submit-frame");
+const formStatus = document.querySelector("#form-status");
+const GOOGLE_SCRIPT_URL = ""; // Add the deployed Google Apps Script web app URL here.
+
+if (contactForm && contactFrame && formStatus) {
+  contactForm.addEventListener("submit", (event) => {
+    if (!GOOGLE_SCRIPT_URL) {
+      event.preventDefault();
+      formStatus.textContent = "Форма почти готова. Осталось подключить адрес обработчика Google Apps Script.";
+      formStatus.className = "form-status is-error";
+      return;
+    }
+    contactForm.action = GOOGLE_SCRIPT_URL;
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.dataset.originalText = submitButton.innerHTML;
+      submitButton.textContent = "Отправляем...";
+    }
+    formStatus.textContent = "Отправляем вашу заявку...";
+    formStatus.className = "form-status";
+  });
+
+  window.addEventListener("message", (event) => {
+    if (event.source !== contactFrame.contentWindow || !event.data || event.data.type !== "monolit-contact-result") return;
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.innerHTML = submitButton.dataset.originalText || "Отправить заявку ↗";
+    }
+    if (event.data.status === "ok") {
+      contactForm.reset();
+      formStatus.textContent = "Заявка отправлена. Спасибо! Мы свяжемся с вами.";
+      formStatus.className = "form-status is-success";
+    } else {
+      formStatus.textContent = "Не удалось отправить заявку. Попробуйте ещё раз или напишите на valerybragin1999@gmail.com.";
+      formStatus.className = "form-status is-error";
+    }
+  });
+}
