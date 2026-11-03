@@ -1948,3 +1948,34 @@ h1 em, h2 em { color: var(--accent); }
     text-align: left;
   }
 }
+
+
+/* Refined navigation iconography: crisp, larger line icons */
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  border-radius: 13px;
+  font-size: 0;
+  color: var(--accent);
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.42);
+  box-shadow: 0 3px 10px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.28);
+}
+.nav-icon svg {
+  display: block;
+  width: 23px;
+  height: 23px;
+}
+@media (max-width: 650px), (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .main-nav.is-open .nav-icon {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    border-radius: 14px;
+  }
+  .main-nav.is-open .nav-icon svg {
+    width: 27px;
+    height: 27px;
+  }
+}
