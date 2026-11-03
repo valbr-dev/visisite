@@ -35,6 +35,7 @@
     setText(".hero-description",c.hero_description);
     setLines(".intro-copy h2",c.about_title);
     setText(".intro-bottom p",c.about_text);
+    for(let i=1;i<=3;i++) setText(".stats .stat:nth-child("+i+") strong",c["about_stat_"+i]);
     for(let i=1;i<=4;i++){setText(".service-card:nth-child("+i+") h3",c["service_"+i+"_title"]);setText(".service-card:nth-child("+i+") p",c["service_"+i+"_text"]);}
     setLines(".project-content h2",c.approach_title);
     setText(".project-content > p",c.approach_text);
