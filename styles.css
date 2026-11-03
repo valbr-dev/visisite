@@ -28,7 +28,7 @@ button { font: inherit; }
 .menu-toggle { display: none; }
 .hero { min-height: 740px; height: min(850px, 100svh); position: relative; display: flex; align-items: center; overflow: hidden; color: white; background: #222a25; }
 .hero-image, .hero-overlay { position: absolute; inset: 0; }
-.hero-image { background: url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2200&q=85") center 48%/cover no-repeat; transform: scale(1.02); }
+.hero-image { background: url("https://i.pinimg.com/originals/28/27/61/282761199ef92643e61b5734c6b8f9e6.jpg") center center/cover no-repeat; transform: scale(1.02); }
 /* Hero image is intentionally darkened by the overlay below. */
 .hero-overlay { background: linear-gradient(90deg, rgba(15,21,17,.86) 0%, rgba(15,21,17,.64) 48%, rgba(15,21,17,.12) 100%), linear-gradient(0deg, rgba(15,21,17,.42), transparent 45%); }
 .hero-content { position: relative; z-index: 1; padding-top: 92px; }
