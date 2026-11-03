@@ -93,10 +93,31 @@
   }
   function showMessage(message,error=false) { const el=$("#editor-message"); el.textContent=message; el.className="message "+(error?"error":"success"); }
   $("#login-form").addEventListener("submit",async e=>{
-    e.preventDefault(); $("#login-message").textContent="Проверяю данные…";
-    const {error}=await db.auth.signInWithPassword({email:$("#email").value,password:$("#password").value});
-    if(error){$("#login-message").textContent="Не удалось войти: "+error.message;return;}
-    await showEditor();
+    e.preventDefault();
+    const button = $("#login-form").querySelector('button[type="submit"]');
+    button.disabled = true;
+    $("#login-message").textContent = "Проверяю данные…";
+    try {
+      const request = db.auth.signInWithPassword({
+        email: $("#email").value.trim(),
+        password: $("#password").value
+      });
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Supabase не ответил за 20 секунд. Проверь доступность соединения с "+window.ARMADA_SUPABASE_URL)), 20000)
+      );
+      const {error} = await Promise.race([request, timeout]);
+      if (error) {
+        $("#login-message").textContent = "Не удалось войти: " + error.message;
+        return;
+      }
+      $("#login-message").textContent = "";
+      await showEditor();
+    } catch (error) {
+      console.error("Supabase login error:", error);
+      $("#login-message").textContent = "Ошибка подключения: " + (error?.message || String(error));
+    } finally {
+      button.disabled = false;
+    }
   });
   async function showEditor() {
     $("#login-panel").hidden=true;$("#editor").hidden=false;
