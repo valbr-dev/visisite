@@ -1823,3 +1823,25 @@ h1 em, h2 em { color: var(--accent); }
     width: calc(100vw - 82px);
   }
 }
+
+
+/* Center mobile navigation labels with their icons stacked above */
+@media (max-width: 650px), (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .main-nav.is-open a {
+    align-items: center;
+    justify-content: center;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: center;
+  }
+
+  .main-nav.is-open .nav-icon {
+    margin-inline: auto;
+  }
+
+  .main-nav.is-open .nav-label {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
