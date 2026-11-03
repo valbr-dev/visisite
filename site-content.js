@@ -3,20 +3,11 @@
   const key = window.ARMADA_SUPABASE_ANON_KEY;
   if (!url || !key || !window.supabase) return;
   const client = window.supabase.createClient(url,key);
-  const fallback = {
-    hero_image:"",
-    approach_image:"",
-    gallery_1:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
-    gallery_2:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85",
-    gallery_3:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=85",
-    case_image_1:"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
-    case_image_2:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85",
-    case_image_3:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85"
-  };
   const setText = (selector,value) => {
     const node=document.querySelector(selector); if(!node || value == null || value === "") return;
     node.textContent=value;
   };
+  const setKicker = (value) => { const node=document.querySelector(".hero .eyebrow-light"); if(!node || !value) return; const marker=node.querySelector("span"); node.textContent=""; if(marker)node.append(marker); node.append(document.createTextNode(" "+value)); };
   const setLines = (selector,value) => {
     const node=document.querySelector(selector); if(!node || value == null || value === "") return;
     node.replaceChildren();
@@ -30,7 +21,7 @@
   client.from("site_content").select("content").eq("id","main").maybeSingle().then(({data,error})=>{
     if(error || !data?.content) return;
     const c=data.content;
-    setText(".hero .eyebrow-light"," "+(c.hero_kicker||"СТРОИТЕЛЬСТВО ПОД КЛЮЧ"));
+    setKicker(c.hero_kicker);
     setLines(".hero h1",c.hero_title);
     setText(".hero-description",c.hero_description);
     setLines(".intro-copy h2",c.about_title);
