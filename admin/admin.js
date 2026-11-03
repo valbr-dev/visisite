@@ -75,7 +75,7 @@
         const holder = document.createElement("div"); holder.className = "image-control";
         const preview = document.createElement("img"); preview.className = "image-preview"; preview.alt = "Предпросмотр изображения"; preview.src = resolveImageUrl(value(key)) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         const actions = document.createElement("div"); actions.className = "image-actions";
-        const url = document.createElement("input"); url.type = "text"; url.placeholder = "https://valbr-dev.github.io/visisite/images/…"; url.value = value(key); url.dataset.key = key;
+        const url = document.createElement("input"); url.type = "text"; url.placeholder = "https://valbr-dev.github.io/visisite/images/…"; url.value = value(key); url.dataset.key = key; url.dataset.image = "true";
         const hint = document.createElement("small"); hint.textContent = "Загрузи файл в GitHub → папка images, затем вставь сюда ссылку на него. Можно указать и путь images/имя-файла.webp.";
         url.addEventListener("input",()=>{
           preview.src = resolveImageUrl(url.value) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
@@ -132,7 +132,7 @@
   $("#content-form").addEventListener("submit",async e=>{
     e.preventDefault();
     $("#saved-state").textContent="Сохраняю…";
-    $("#fields").querySelectorAll("[data-key]").forEach(input=>{content[input.dataset.key]=input.type === "text" && input.dataset.key.endsWith("_image") ? resolveImageUrl(input.value) : input.value.trim();});
+    $("#fields").querySelectorAll("[data-key]").forEach(input=>{content[input.dataset.key]=input.dataset.image === "true" ? resolveImageUrl(input.value) : input.value.trim();});
     const {error}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
     if(error){showMessage("Ошибка сохранения: "+error.message,true);$("#saved-state").textContent="Не сохранено";return;}
     $("#saved-state").textContent="Сохранено";showMessage("Изменения сохранены. Обнови сайт, чтобы увидеть результат.");
