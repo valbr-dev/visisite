@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#f7f5f1">
+  <title>Админ-панель — АРМАДА</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase-config.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><a class="brand" href="../"><span class="brand-mark">А</span><span>АРМАДА<small>АДМИНИСТРИРОВАНИЕ САЙТА</small></span></a><a class="site-link" href="../" target="_blank" rel="noopener">Открыть сайт ↗</a></header>
+    <section id="setup-warning" class="notice" hidden>Сначала подключи Supabase: создай проект, выполни файл <b>supabase-setup.sql</b> в SQL Editor и добавь URL проекта и anon key в файл <b>supabase-config.js</b>. Инструкция будет доступна в корне репозитория.</section>
+    <section id="login-panel" class="login-card">
+      <span class="eyebrow">ЗАКРЫТЫЙ ДОСТУП</span><h1>Вход в админ-панель</h1><p>Авторизуйся с помощью учётной записи администратора Supabase.</p>
+      <form id="login-form"><label>Email<input id="email" type="email" autocomplete="username" required placeholder="admin@example.com"></label><label>Пароль<input id="password" type="password" autocomplete="current-password" required placeholder="Пароль"></label><button class="primary" type="submit">Войти в панель</button></form>
+      <p id="login-message" class="message" role="status"></p>
+    </section>
+    <section id="editor" hidden>
+      <div class="welcome"><div><span class="eyebrow">ПАНЕЛЬ УПРАВЛЕНИЯ</span><h1>Контент сайта</h1><p>Редактируй тексты и фотографии. Изменения публикуются после сохранения.</p></div><button id="logout" class="ghost" type="button">Выйти</button></div>
+      <div class="layout">
+        <nav class="side-nav" aria-label="Разделы редактора">
+          <button class="nav-item active" data-section="home">Главная</button>
+          <button class="nav-item" data-section="about">О компании</button>
+          <button class="nav-item" data-section="services">Услуги</button>
+          <button class="nav-item" data-section="approach">Наш подход</button>
+          <button class="nav-item" data-section="gallery">Галерея</button>
+          <button class="nav-item" data-section="contacts">Контакты</button>
+          <button class="nav-item" data-section="example">Пример работ</button>
+        </nav>
+        <section class="editor-card">
+          <div class="editor-heading"><div><span class="eyebrow" id="section-eyebrow">01 / ГЛАВНАЯ</span><h2 id="section-title">Главный экран</h2></div><span class="saved-state" id="saved-state">Не сохранено</span></div>
+          <form id="content-form">
+            <div id="fields" class="fields"></div>
+            <div class="actions"><button class="primary" type="submit">Сохранить изменения</button><button class="ghost" id="reload" type="button">Отменить изменения</button></div>
+          </form>
+          <p id="editor-message" class="message" role="status"></p>
+        </section>
+      </div>
+      <p class="footnote">Совет: перед публикацией открой сайт в соседней вкладке и проверь результат. Изображения загружаются в Supabase Storage.</p>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>
