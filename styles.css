@@ -694,3 +694,11 @@ h1 em, h2 em { color: var(--accent); }
     transform: none;
   }
 }
+
+
+/* Hero statement without a panel; keep the accent stripe */
+.hero-vertical {
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
