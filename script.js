@@ -47,7 +47,8 @@ if (contactForm && contactFrame && formStatus) {
   });
 
   window.addEventListener("message", (event) => {
-    if (event.source !== contactFrame.contentWindow || !event.data || event.data.type !== "monolit-contact-result") return;
+    const trustedOrigin = event.origin === "https://script.google.com" || event.origin.endsWith(".googleusercontent.com");
+    if (!trustedOrigin || !event.data || event.data.type !== "monolit-contact-result") return;
     const submitButton = contactForm.querySelector('button[type="submit"]');
     if (submitButton) {
       submitButton.disabled = false;
