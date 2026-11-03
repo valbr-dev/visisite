@@ -737,3 +737,35 @@ h1 em, h2 em { color: var(--accent); }
     background: #292725;
   }
 }
+
+
+/* Keep the mobile header transparent over the hero image.
+   Only the menu toggle turns white while pressed or while the menu is open. */
+@media (max-width: 650px) {
+  .site-header {
+    background: transparent;
+    border-bottom-color: rgba(255,255,255,.2);
+  }
+  .menu-toggle,
+  .menu-toggle:hover,
+  .menu-toggle:focus {
+    background: transparent;
+    border-color: rgba(255,255,255,.4);
+    box-shadow: none;
+  }
+  .menu-toggle:active,
+  .menu-toggle:focus-visible,
+  .menu-toggle[aria-expanded="true"] {
+    background: #fff;
+    border-color: rgba(41,37,33,.16);
+    box-shadow: 0 5px 18px rgba(0,0,0,.12);
+  }
+  .menu-toggle span {
+    background: #fff;
+  }
+  .menu-toggle:active span,
+  .menu-toggle:focus-visible span,
+  .menu-toggle[aria-expanded="true"] span {
+    background: #302c28;
+  }
+}
