@@ -206,3 +206,10 @@ h1 em, h2 em { color: var(--accent); font-style: normal; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+.form-submit-frame { position: absolute; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }
+.form-status { min-height: 18px; margin: -8px 0 0; font-size: 11px; line-height: 1.6; }
+.form-status:empty { display: none; }
+.form-status.is-success { color: #42651c; }
+.form-status.is-error { color: #a33b32; }
+.button-form:disabled { cursor: wait; opacity: .7; transform: none; }
