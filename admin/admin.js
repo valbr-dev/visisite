@@ -77,12 +77,70 @@
         const preview = document.createElement("img"); preview.className = "image-preview"; preview.alt = "Предпросмотр изображения"; preview.src = resolveImageUrl(value(key)) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         const actions = document.createElement("div"); actions.className = "image-actions";
         const url = document.createElement("input"); url.type = "text"; url.placeholder = "https://valbr-dev.github.io/visisite/images/…"; url.value = value(key); url.dataset.key = key; url.dataset.image = "true";
-        const hint = document.createElement("small"); hint.textContent = "Загрузи фотографию в GitHub → папку images, затем вставь сюда ссылку или путь к файлу.";
+        const file = document.createElement("input"); file.type = "file"; file.accept = "image/jpeg,image/png,image/webp,image/avif";
+        file.setAttribute("aria-label", "Выбрать фотографию");
+        const upload = document.createElement("button"); upload.type = "button"; upload.className = "ghost upload-image"; upload.textContent = "Загрузить фотографию";
+        const hint = document.createElement("small"); hint.textContent = "Выбери фото на устройстве. Оно загрузится в GitHub и автоматически появится на сайте.";
         url.addEventListener("input",()=>{
           preview.src = resolveImageUrl(url.value) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
           $("#saved-state").textContent = "Есть несохранённые изменения";
         });
-        actions.append(url,hint); holder.append(preview,actions); wrap.append(title,holder);
+        upload.addEventListener("click", async () => {
+          const selected = file.files && file.files[0];
+          if (!selected) { showMessage("Сначала выбери фотографию.", true); return; }
+          const extensions = {"image/jpeg":"jpg","image/png":"png","image/webp":"webp","image/avif":"avif"};
+          const ext = extensions[selected.type];
+          if (!ext) { showMessage("Поддерживаются JPG, PNG, WebP и AVIF.", true); return; }
+          if (selected.size > 20 * 1024 * 1024) { showMessage("Файл больше 20 МБ. Уменьши фотографию перед загрузкой.", true); return; }
+          let token = sessionStorage.getItem("armada_github_token");
+          if (!token) {
+            token = window.prompt("Вставь GitHub Fine-grained token с доступом Contents: Read and write только к репозиторию valbr-dev/visisite. Токен хранится только в этой вкладке до её закрытия.");
+            if (!token) return;
+            token = token.trim();
+            if (!token) return;
+            sessionStorage.setItem("armada_github_token", token);
+          }
+          upload.disabled = true; upload.textContent = "Загружаю…";
+          try {
+            const base64 = await new Promise((resolve,reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(String(reader.result).split(",")[1]);
+              reader.onerror = () => reject(new Error("Не удалось прочитать выбранный файл."));
+              reader.readAsDataURL(selected);
+            });
+            const safeKey = key.replace(/[^a-z0-9_-]/gi,"-");
+            const filename = safeKey + "-" + Date.now() + "." + ext;
+            const path = "images/uploads/" + filename;
+            const response = await fetch("https://api.github.com/repos/valbr-dev/visisite/contents/" + path, {
+              method:"PUT",
+              headers:{
+                "Authorization":"Bearer " + token,
+                "Accept":"application/vnd.github+json",
+                "X-GitHub-Api-Version":"2022-11-28",
+                "Content-Type":"application/json"
+              },
+              body:JSON.stringify({message:"Upload image for " + key,content:base64})
+            });
+            const result = await response.json().catch(()=>({}));
+            if (!response.ok) {
+              if (response.status === 401 || response.status === 403) sessionStorage.removeItem("armada_github_token");
+              throw new Error(result.message || ("GitHub вернул ошибку " + response.status));
+            }
+            const imageUrl = "https://valbr-dev.github.io/visisite/" + path + "?v=" + Date.now();
+            url.value = imageUrl;
+            preview.src = imageUrl;
+            content[key] = imageUrl;
+            const {error} = await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
+            if (error) throw new Error("Фото уже загружено в GitHub, но ссылка не сохранилась в контенте сайта: " + error.message);
+            $("#saved-state").textContent = "Фотография опубликована";
+            showMessage("Готово! Фото загружено в GitHub и автоматически установлено на сайте.");
+          } catch(error) {
+            showMessage("Не удалось загрузить фотографию: " + error.message, true);
+          } finally {
+            upload.disabled = false; upload.textContent = "Загрузить фотографию";
+          }
+        });
+        actions.append(url,file,upload,hint); holder.append(preview,actions); wrap.append(title,holder);
       } else {
         const input = type === "textarea" ? document.createElement("textarea") : document.createElement("input");
         input.value = value(key); input.dataset.key = key;
