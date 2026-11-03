@@ -68,16 +68,51 @@
         const url = document.createElement("input"); url.type = "url"; url.placeholder = "Или вставь URL изображения"; url.value = value(key); url.dataset.key = key;
         const file = document.createElement("input"); file.type = "file"; file.accept = "image/jpeg,image/png,image/webp,image/avif";
         file.addEventListener("change", async () => {
-          const image = file.files?.[0]; if (!image) return;
-          if (image.size > 10 * 1024 * 1024) { showMessage("Максимальный размер изображения — 10 МБ.",true); file.value=""; return; }
-          showMessage("Загружаю изображение…");
+          const image = file.files?.[0];
+          if (!image) return;
+          const allowedTypes = ["image/jpeg","image/png","image/webp","image/avif"];
+          if (!allowedTypes.includes(image.type)) {
+            showMessage("Формат не поддерживается. Выбери JPG, PNG, WebP или AVIF.",true);
+            file.value = "";
+            return;
+          }
+          if (image.size > 10 * 1024 * 1024) {
+            showMessage("Максимальный размер изображения — 10 МБ.",true);
+            file.value = "";
+            return;
+          }
+          file.disabled = true;
+          showMessage("Загружаю изображение в Supabase Storage…");
           const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g,"");
           const path = Date.now() + "-" + Math.random().toString(36).slice(2,8) + "." + ext;
-          const {error} = await db.storage.from("armada-images").upload(path,image,{cacheControl:"3600",upsert:false,contentType:image.type});
-          if (error) { showMessage(error.message,true); return; }
-          const {data} = db.storage.from("armada-images").getPublicUrl(path);
-          url.value = data.publicUrl; preview.src = data.publicUrl; url.dispatchEvent(new Event("input"));
-          showMessage("Фото загружено. Не забудь сохранить изменения.");
+          try {
+            const {data: sessionData, error: sessionError} = await db.auth.getSession();
+            if (sessionError) throw sessionError;
+            if (!sessionData.session) throw new Error("Сессия администратора истекла. Выйди из админки и войди снова.");
+            const {error} = await db.storage.from("armada-images").upload(path,image,{
+              cacheControl:"3600",
+              upsert:false,
+              contentType:image.type
+            });
+            if (error) throw error;
+            const {data} = db.storage.from("armada-images").getPublicUrl(path);
+            url.value = data.publicUrl;
+            preview.src = data.publicUrl;
+            url.dispatchEvent(new Event("input"));
+            $("#saved-state").textContent = "Есть несохранённые изменения";
+            showMessage("Фото загружено. Теперь нажми «Сохранить изменения».");
+          } catch (error) {
+            console.error("Supabase Storage upload error:", error);
+            const detail = error?.message || String(error);
+            showMessage(
+              detail.includes("Failed to fetch")
+                ? "Браузер не получил ответ от Supabase Storage (Failed to fetch). Это обычно проблема сетевого соединения, VPN, блокировки запроса или CORS, а не формата фото. Проверь загрузку с другим VPN/браузером. Подробности: F12 → Console."
+                : "Не удалось загрузить фото: " + detail,
+              true
+            );
+          } finally {
+            file.disabled = false;
+          }
         });
         url.addEventListener("input",()=>{preview.src=url.value || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";});
         actions.append(url,file); holder.append(preview,actions); wrap.append(title,holder);
