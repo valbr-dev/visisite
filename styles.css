@@ -702,3 +702,38 @@ h1 em, h2 em { color: var(--accent); }
   box-shadow: none;
   backdrop-filter: none;
 }
+
+
+/* Mobile header gets its own solid surface; menu button stays transparent until pressed */
+@media (max-width: 650px) {
+  .site-header {
+    background: #292725;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+  }
+  .menu-toggle {
+    background: transparent;
+    border-color: rgba(255,255,255,.35);
+    box-shadow: none;
+    outline: none;
+  }
+  .menu-toggle:hover,
+  .menu-toggle:focus {
+    background: transparent;
+    box-shadow: none;
+  }
+  .menu-toggle:active,
+  .menu-toggle:focus-visible,
+  .menu-toggle[aria-expanded="true"] {
+    background: #fff;
+    border-color: rgba(255,255,255,.8);
+    box-shadow: 0 5px 18px rgba(0,0,0,.12);
+  }
+  .menu-toggle span {
+    background: #fff;
+  }
+  .menu-toggle:active span,
+  .menu-toggle:focus-visible span,
+  .menu-toggle[aria-expanded="true"] span {
+    background: #292725;
+  }
+}
