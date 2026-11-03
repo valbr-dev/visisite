@@ -433,3 +433,81 @@ h1 em, h2 em { color: var(--accent); }
     transform: translateY(-20%);
   }
 }
+
+
+/* Large, coordinated hero actions */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 42px;
+}
+.hero-actions .button-accent,
+.hero-actions .hero-link {
+  min-height: 68px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 0 28px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  transition: transform .22s ease, background .22s ease, border-color .22s ease, color .22s ease, box-shadow .22s ease;
+}
+.hero-actions .button-accent {
+  background: var(--accent);
+  color: var(--ink);
+  box-shadow: 0 9px 26px rgba(0,0,0,.18);
+}
+.hero-actions .button-accent:hover {
+  transform: translateY(-3px);
+  background: #f49350;
+  border-color: #f49350;
+  box-shadow: 0 14px 32px rgba(0,0,0,.24);
+}
+.hero-actions .hero-link {
+  color: #fff;
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.55);
+  backdrop-filter: blur(8px);
+}
+.hero-actions .hero-link:hover {
+  transform: translateY(-3px);
+  color: var(--ink);
+  background: #fff;
+  border-color: #fff;
+}
+.hero-actions .button span,
+.hero-actions .hero-link span {
+  margin: 0;
+  color: inherit;
+  font-size: 22px;
+  line-height: 1;
+  transition: transform .22s ease;
+}
+.hero-actions .button-accent span { color: var(--ink); }
+.hero-actions .hero-link span { color: var(--accent); }
+.hero-actions .button:hover span { transform: translate(3px, -2px); }
+.hero-actions .hero-link:hover span { color: var(--ink); transform: translateY(3px); }
+@media (max-width: 650px) {
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+    width: min(100%, 390px);
+  }
+  .hero-actions .button-accent,
+  .hero-actions .hero-link {
+    width: 100%;
+    min-height: 62px;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 16px;
+  }
+}
