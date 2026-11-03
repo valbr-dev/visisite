@@ -51,6 +51,16 @@
     content = data?.content || {};
     renderFields();
   }
+  function resolveImageUrl(input) {
+    const value = String(input || "").trim();
+    if (!value) return "";
+    if (/^https?:\/\//i.test(value) || value.startsWith("data:")) return value;
+    if (/^(images|\.\.\/images|\/visisite\/images)\//i.test(value)) {
+      const clean = value.replace(/^\/+/, "").replace(/^\.\.\//, "");
+      return new URL("../" + clean, window.location.href).href;
+    }
+    return value;
+  }
   function renderFields() {
     const section = definitions[activeSection];
     $("#section-title").textContent = section.title;
@@ -63,59 +73,15 @@
       title.textContent = label;
       if (type === "image") {
         const holder = document.createElement("div"); holder.className = "image-control";
-        const preview = document.createElement("img"); preview.className = "image-preview"; preview.alt = "Предпросмотр изображения"; preview.src = value(key) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+        const preview = document.createElement("img"); preview.className = "image-preview"; preview.alt = "Предпросмотр изображения"; preview.src = resolveImageUrl(value(key)) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         const actions = document.createElement("div"); actions.className = "image-actions";
-        const url = document.createElement("input"); url.type = "url"; url.placeholder = "Или вставь URL изображения"; url.value = value(key); url.dataset.key = key;
-        const file = document.createElement("input"); file.type = "file"; file.accept = "image/jpeg,image/png,image/webp,image/avif";
-        file.addEventListener("change", async () => {
-          const image = file.files?.[0];
-          if (!image) return;
-          const allowedTypes = ["image/jpeg","image/png","image/webp","image/avif"];
-          if (!allowedTypes.includes(image.type)) {
-            showMessage("Формат не поддерживается. Выбери JPG, PNG, WebP или AVIF.",true);
-            file.value = "";
-            return;
-          }
-          if (image.size > 10 * 1024 * 1024) {
-            showMessage("Максимальный размер изображения — 10 МБ.",true);
-            file.value = "";
-            return;
-          }
-          file.disabled = true;
-          showMessage("Загружаю изображение в Supabase Storage…");
-          const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g,"");
-          const path = Date.now() + "-" + Math.random().toString(36).slice(2,8) + "." + ext;
-          try {
-            const {data: sessionData, error: sessionError} = await db.auth.getSession();
-            if (sessionError) throw sessionError;
-            if (!sessionData.session) throw new Error("Сессия администратора истекла. Выйди из админки и войди снова.");
-            const {error} = await db.storage.from("armada-images").upload(path,image,{
-              cacheControl:"3600",
-              upsert:false,
-              contentType:image.type
-            });
-            if (error) throw error;
-            const {data} = db.storage.from("armada-images").getPublicUrl(path);
-            url.value = data.publicUrl;
-            preview.src = data.publicUrl;
-            url.dispatchEvent(new Event("input"));
-            $("#saved-state").textContent = "Есть несохранённые изменения";
-            showMessage("Фото загружено. Теперь нажми «Сохранить изменения».");
-          } catch (error) {
-            console.error("Supabase Storage upload error:", error);
-            const detail = error?.message || String(error);
-            showMessage(
-              detail.includes("Failed to fetch")
-                ? "Браузер не получил ответ от Supabase Storage (Failed to fetch). Это обычно проблема сетевого соединения, VPN, блокировки запроса или CORS, а не формата фото. Проверь загрузку с другим VPN/браузером. Подробности: F12 → Console."
-                : "Не удалось загрузить фото: " + detail,
-              true
-            );
-          } finally {
-            file.disabled = false;
-          }
+        const url = document.createElement("input"); url.type = "text"; url.placeholder = "https://valbr-dev.github.io/visisite/images/…"; url.value = value(key); url.dataset.key = key;
+        const hint = document.createElement("small"); hint.textContent = "Загрузи файл в GitHub → папка images, затем вставь сюда ссылку на него. Можно указать и путь images/имя-файла.webp.";
+        url.addEventListener("input",()=>{
+          preview.src = resolveImageUrl(url.value) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+          $("#saved-state").textContent = "Есть несохранённые изменения";
         });
-        url.addEventListener("input",()=>{preview.src=url.value || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";});
-        actions.append(url,file); holder.append(preview,actions); wrap.append(title,holder);
+        actions.append(url,hint); holder.append(preview,actions); wrap.append(title,holder);
       } else {
         const input = type === "textarea" ? document.createElement("textarea") : document.createElement("input");
         input.value = value(key); input.dataset.key = key;
@@ -166,7 +132,7 @@
   $("#content-form").addEventListener("submit",async e=>{
     e.preventDefault();
     $("#saved-state").textContent="Сохраняю…";
-    $("#fields").querySelectorAll("[data-key]").forEach(input=>{content[input.dataset.key]=input.value.trim();});
+    $("#fields").querySelectorAll("[data-key]").forEach(input=>{content[input.dataset.key]=input.type === "text" && input.dataset.key.endsWith("_image") ? resolveImageUrl(input.value) : input.value.trim();});
     const {error}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
     if(error){showMessage("Ошибка сохранения: "+error.message,true);$("#saved-state").textContent="Не сохранено";return;}
     $("#saved-state").textContent="Сохранено";showMessage("Изменения сохранены. Обнови сайт, чтобы увидеть результат.");
