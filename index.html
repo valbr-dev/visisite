@@ -157,7 +157,7 @@
           <p>Расскажите, что хотите построить или изменить. Мы получим вашу заявку на почту и свяжемся удобным для вас способом.</p>
           <a class="contact-direct" href="mailto:valerybragin1999@gmail.com">valerybragin1999@gmail.com <span>↗</span></a>
         </div>
-        <form class="contact-form" id="contact-form" action="https://formsubmit.co/valerybragin1999@gmail.com" method="POST">
+        <form class="contact-form" id="contact-form" action="#" method="POST" target="contact-submit-frame">
           <input type="hidden" name="_subject" value="Новая заявка с сайта МОНОЛИТ">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="true">
@@ -172,7 +172,9 @@
           </label>
           <button class="button button-form" type="submit">Отправить заявку <span>↗</span></button>
           <p class="form-privacy">Нажимая кнопку, вы соглашаетесь на обработку указанных данных для ответа на заявку.</p>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
         </form>
+        <iframe name="contact-submit-frame" id="contact-submit-frame" title="Отправка заявки" class="form-submit-frame"></iframe>
       </div>
     </section>
   </main>
