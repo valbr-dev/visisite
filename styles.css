@@ -381,3 +381,55 @@ h1 em, h2 em { color: var(--accent); }
     letter-spacing: .045em;
   }
 }
+
+
+/* Keep the hero statement vertical on every screen size */
+.hero-vertical {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: clamp(22px, 4vw, 58px);
+  bottom: auto;
+  left: auto;
+  width: auto;
+  max-height: calc(100% - 190px);
+  padding: 18px 14px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  color: #fff;
+  background: rgba(25, 29, 26, .58);
+  border-right: 4px solid var(--accent);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(8px);
+  transform: translateY(-25%);
+  font-size: clamp(17px, 1.7vw, 23px);
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+@media (max-width: 900px) {
+  .hero-vertical {
+    right: 24px;
+    max-height: calc(100% - 170px);
+    padding: 15px 11px;
+    font-size: clamp(16px, 2.2vw, 20px);
+  }
+}
+@media (max-width: 650px) {
+  .hero-vertical {
+    display: block;
+    top: 50%;
+    right: 16px;
+    bottom: auto;
+    left: auto;
+    width: auto;
+    max-height: calc(100% - 160px);
+    padding: 12px 9px;
+    font-size: clamp(14px, 4vw, 17px);
+    line-height: 1.2;
+    letter-spacing: .1em;
+    transform: translateY(-20%);
+  }
+}
