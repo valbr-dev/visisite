@@ -23,8 +23,8 @@ button { font: inherit; }
 .main-nav a, .header-contact { font-size: 14px; font-weight: 800; letter-spacing: -.025em; transition: color .2s, background .2s, border-color .2s, transform .2s; }
 .main-nav a { display: inline-flex; align-items: center; gap: 14px; min-height: 54px; padding: 7px 12px 7px 8px; border: 1px solid rgba(255,255,255,.28); border-radius: 2px; background: rgba(26,32,28,.76); color: rgba(255,255,255,.95); white-space: nowrap; box-shadow: 0 5px 18px rgba(0,0,0,.12); backdrop-filter: blur(9px); }
 .main-nav a:hover, .main-nav a:focus-visible { transform: translateY(-2px); border-color: rgba(197,237,99,.85); background: rgba(197,237,99,.10); color: var(--accent); }
-.nav-label { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.035); transition: transform .2s ease, border-color .2s ease, background .2s ease, color .2s ease; }
-.main-nav a:hover .nav-label, .main-nav a:focus-visible .nav-label { transform: scale(1.045); border-color: var(--accent); background: var(--accent); color: var(--ink); box-shadow: 0 0 0 3px rgba(197,237,99,.10); }
+.nav-label { display: inline-flex; align-items: center; justify-content: center; min-width: 116px; min-height: 36px; padding: 0 12px; border: 1px solid rgba(255,255,255,.20); border-radius: 12px; background: rgba(255,255,255,.075); transition: transform .22s ease, border-color .22s ease, background .22s ease, color .22s ease, box-shadow .22s ease; }
+.main-nav a:hover .nav-label, .main-nav a:focus-visible .nav-label { transform: scale(1.055); border-color: rgba(197,237,99,.72); background: rgba(197,237,99,.13); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
 .nav-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border: 1px solid rgba(197,237,99,.68); color: var(--accent); font-size: 17px; line-height: 1; }
 .main-nav a:hover .nav-icon, .main-nav a:focus-visible .nav-icon { background: var(--accent); color: var(--ink); }
 .header-contact { padding: 15px 18px; border: 1px solid rgba(255,255,255,.45); white-space: nowrap; }
@@ -139,7 +139,7 @@ h1 em, h2 em { color: var(--accent); font-style: normal; }
   .header-inner { gap: 20px; }
   .main-nav { gap: 7px; }
   .main-nav a { gap: 10px; padding-right: 9px; font-size: 12px; }
-  .nav-label { min-height: 32px; padding-inline: 8px; }
+  .nav-label { min-width: 104px; min-height: 32px; padding-inline: 8px; border-radius: 11px; }
   .nav-icon { width: 30px; height: 30px; flex-basis: 30px; }
   .header-contact { padding: 13px 14px; font-size: 10px; }
 }
@@ -162,7 +162,7 @@ h1 em, h2 em { color: var(--accent); font-style: normal; }
   .main-nav { position: absolute; top: 76px; left: 0; right: 0; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 8px 20px 18px; background: #1a201c; }
   .main-nav.is-open { display: flex; }
   .main-nav a { min-height: 58px; padding: 9px 10px; gap: 14px; border: 1px solid rgba(255,255,255,.14); border-radius: 2px; background: rgba(255,255,255,.04); font-size: 17px; letter-spacing: -.02em; }
-  .nav-label { min-height: 38px; padding-inline: 12px; }
+  .nav-label { min-width: 0; min-height: 38px; padding-inline: 12px; border-radius: 12px; }
   .nav-icon { width: 36px; height: 36px; flex-basis: 36px; }
   .hero { min-height: 700px; height: 92svh; max-height: 820px; }
   .hero-image { background-position: 58% center; }
