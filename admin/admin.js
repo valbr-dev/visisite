@@ -77,12 +77,35 @@
         const preview = document.createElement("img"); preview.className = "image-preview"; preview.alt = "Предпросмотр изображения"; preview.src = resolveImageUrl(value(key)) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         const actions = document.createElement("div"); actions.className = "image-actions";
         const url = document.createElement("input"); url.type = "text"; url.placeholder = "https://valbr-dev.github.io/visisite/images/…"; url.value = value(key); url.dataset.key = key; url.dataset.image = "true";
-        const hint = document.createElement("small"); hint.textContent = "Загрузи файл в GitHub → папка images, затем вставь сюда ссылку на него. Можно указать и путь images/имя-файла.webp.";
+        const hint = document.createElement("small"); hint.textContent = "Выбери фотографию — она загрузится в GitHub и автоматически сохранится на сайте. Или вставь ссылку вручную.";
+        const file = document.createElement("input"); file.type = "file"; file.accept = "image/jpeg,image/png,image/webp,image/avif"; file.hidden = true;
+        const upload = document.createElement("button"); upload.type = "button"; upload.className = "ghost upload-image"; upload.textContent = "Загрузить с устройства";
+        upload.addEventListener("click",()=>file.click());
+        file.addEventListener("change",async()=>{
+          const selected = file.files && file.files[0]; if(!selected) return;
+          if(selected.size > 8 * 1024 * 1024){showMessage("Файл слишком большой. Максимум — 8 МБ.",true);file.value="";return;}
+          if(!/^image\/(jpeg|png|webp|avif)$/.test(selected.type)){showMessage("Поддерживаются JPG, PNG, WebP и AVIF.",true);file.value="";return;}
+          upload.disabled=true;upload.textContent="Загружаю…";showMessage("Отправляю фотографию в GitHub…");
+          try{
+            const bytes = new Uint8Array(await selected.arrayBuffer());
+            let binary = ""; const chunk = 0x8000;
+            for(let i=0;i<bytes.length;i+=chunk) binary += String.fromCharCode(...bytes.subarray(i,i+chunk));
+            const folder = key === "gallery_1" || key === "gallery_2" || key === "gallery_3" ? "gallery" : (key === "approach_image" ? "about" : "projects");
+            const {data,error} = await db.functions.invoke("upload-image",{body:{filename:selected.name,mimeType:selected.type,contentBase64:btoa(binary),folder}});
+            if(error) throw error;
+            if(!data?.publicUrl) throw new Error(data?.error || "GitHub не вернул адрес изображения");
+            url.value=data.publicUrl;content[key]=data.publicUrl;
+            preview.src=data.publicUrl;
+            await saveContent();
+            upload.textContent="Загружено";showMessage("Фотография загружена в GitHub и опубликована в контенте сайта. Публикация Pages может занять 1–2 минуты.");
+          }catch(err){console.error("Image upload error:",err);showMessage("Не удалось загрузить фотографию: "+(err?.message||String(err)),true);upload.textContent="Повторить загрузку";}
+          finally{upload.disabled=false;file.value="";}
+        });
         url.addEventListener("input",()=>{
           preview.src = resolveImageUrl(url.value) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
           $("#saved-state").textContent = "Есть несохранённые изменения";
         });
-        actions.append(url,hint); holder.append(preview,actions); wrap.append(title,holder);
+        actions.append(url,upload,file,hint); holder.append(preview,actions); wrap.append(title,holder);
       } else {
         const input = type === "textarea" ? document.createElement("textarea") : document.createElement("input");
         input.value = value(key); input.dataset.key = key;
@@ -130,13 +153,17 @@
     activeSection=button.dataset.section;document.querySelectorAll(".nav-item").forEach(x=>x.classList.toggle("active",x===button));renderFields();
   }));
   $("#reload").addEventListener("click",renderFields);
+  async function saveContent() {
+    $("#fields").querySelectorAll("[data-key]").forEach(input=>{content[input.dataset.key]=input.dataset.image === "true" ? resolveImageUrl(input.value) : input.value.trim();});
+    const {error}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
+    if(error) throw error;
+    $("#saved-state").textContent="Сохранено";
+  }
   $("#content-form").addEventListener("submit",async e=>{
     e.preventDefault();
     $("#saved-state").textContent="Сохраняю…";
-    $("#fields").querySelectorAll("[data-key]").forEach(input=>{content[input.dataset.key]=input.dataset.image === "true" ? resolveImageUrl(input.value) : input.value.trim();});
-    const {error}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
-    if(error){showMessage("Ошибка сохранения: "+error.message,true);$("#saved-state").textContent="Не сохранено";return;}
-    $("#saved-state").textContent="Сохранено";showMessage("Изменения сохранены. Обнови сайт, чтобы увидеть результат.");
+    try{await saveContent();showMessage("Изменения сохранены. Обнови сайт, чтобы увидеть результат.");}
+    catch(error){showMessage("Ошибка сохранения: "+error.message,true);$("#saved-state").textContent="Не сохранено";}
   });
   db.auth.getSession().then(({data})=>{if(data.session)showEditor();});
 })();
