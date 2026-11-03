@@ -1492,3 +1492,47 @@ h1 em, h2 em { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) {
   .back-to-top { transition: none; }
 }
+
+
+/* One shared glass frame around the desktop navigation links */
+@media (min-width: 901px) {
+  .main-nav {
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+    padding: 6px;
+    border: 1px solid rgba(255,255,255,.58);
+    border-radius: 999px;
+    background: rgba(255,255,255,.14);
+    box-shadow:
+      0 8px 26px rgba(0,0,0,.12),
+      inset 0 1px 0 rgba(255,255,255,.42);
+    -webkit-backdrop-filter: blur(22px) saturate(175%);
+    backdrop-filter: blur(22px) saturate(175%);
+  }
+
+  .main-nav a {
+    flex: 1 1 0;
+    justify-content: center;
+    min-width: 0;
+    padding: 6px 10px;
+    border-color: transparent;
+    border-radius: 999px;
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .main-nav a:hover,
+  .main-nav a:focus-visible {
+    background: rgba(255,255,255,.18);
+    border-color: rgba(255,255,255,.32);
+  }
+
+  .nav-label {
+    min-width: 0;
+    padding-inline: 6px;
+  }
+}
