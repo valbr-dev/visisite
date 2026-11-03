@@ -955,3 +955,76 @@ h1 em, h2 em { color: var(--accent); }
     max-width: 100%;
   }
 }
+
+
+/* Approach section: give the text block a full, balanced layout */
+.project-feature {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: stretch;
+  min-height: 680px;
+}
+.project-photo {
+  min-width: 0;
+  min-height: 100%;
+}
+.project-content {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(54px, 7vw, 104px) clamp(32px, 6vw, 88px);
+}
+.project-content h2 {
+  margin: 18px 0 18px;
+  font-size: clamp(46px, 5.4vw, 72px);
+}
+.project-content > p {
+  max-width: 560px;
+  font-size: 16px;
+  line-height: 1.85;
+}
+.benefit-list {
+  width: 100%;
+  max-width: 620px;
+  margin: 26px 0;
+}
+.benefit-list li {
+  padding: 16px 0;
+  font-size: 15px;
+}
+.text-button {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 13px;
+}
+@media (max-width: 900px) {
+  .project-content {
+    padding: 56px 34px;
+  }
+}
+@media (max-width: 650px) {
+  .project-feature {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .project-photo {
+    min-height: 300px;
+  }
+  .project-content {
+    width: 100%;
+    padding: 52px 24px 60px;
+  }
+  .project-content h2 {
+    font-size: clamp(42px, 10vw, 56px);
+  }
+  .project-content > p {
+    font-size: 15px;
+  }
+  .benefit-list li {
+    font-size: 14px;
+  }
+}
