@@ -336,3 +336,48 @@ h1 em, h2 em { color: var(--accent); }
   .main-nav a { background: #fff; border-color: rgba(41,37,33,.12); color: var(--ink); }
   .menu-toggle { border-color: rgba(255,255,255,.65); background: rgba(35,31,27,.24); }
 }
+
+
+/* Hero statement: prominent, readable and safely positioned */
+.hero-vertical {
+  position: absolute;
+  z-index: 2;
+  right: clamp(24px, 5vw, 76px);
+  bottom: 104px;
+  width: min(440px, 38%);
+  padding: 20px 24px 20px 27px;
+  writing-mode: horizontal-tb;
+  color: #fff;
+  background: rgba(25, 29, 26, .58);
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .16);
+  backdrop-filter: blur(8px);
+  font-size: clamp(21px, 2.15vw, 30px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: .055em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+@media (max-width: 900px) {
+  .hero-vertical {
+    right: 32px;
+    bottom: 92px;
+    width: min(350px, 42%);
+    padding: 16px 18px 16px 20px;
+    font-size: clamp(18px, 2.5vw, 23px);
+  }
+}
+@media (max-width: 650px) {
+  .hero-vertical {
+    display: block;
+    left: 20px;
+    right: 20px;
+    bottom: 78px;
+    width: auto;
+    padding: 13px 16px 13px 18px;
+    font-size: clamp(17px, 5vw, 22px);
+    line-height: 1.22;
+    letter-spacing: .045em;
+  }
+}
