@@ -25,7 +25,7 @@ if (year) year.textContent = new Date().getFullYear();
 const contactForm = document.querySelector("#contact-form");
 const contactFrame = document.querySelector("#contact-submit-frame");
 const formStatus = document.querySelector("#form-status");
-const GOOGLE_SCRIPT_URL = ""; // Add the deployed Google Apps Script web app URL here.
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBenhxZXcO6YYE2i0Z-3BIBfLY01PP0i0Rby54iOMfIj-M95EfGSaJtIbp8pXoSwI/exec"; // Add the deployed Google Apps Script web app URL here.
 
 if (contactForm && contactFrame && formStatus) {
   contactForm.addEventListener("submit", (event) => {
