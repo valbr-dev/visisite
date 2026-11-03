@@ -16,7 +16,7 @@ function doPost(e) {
     }
 
     const body = [
-      "Новая заявка с сайта МОНОЛИТ",
+      "Новая заявка с сайта АРМАДА",
       "",
       "ФИО: " + name,
       "Контакты: " + contacts,
@@ -28,9 +28,9 @@ function doPost(e) {
 
     MailApp.sendEmail({
       to: RECIPIENT_EMAIL,
-      subject: "Новая заявка с сайта МОНОЛИТ",
+      subject: "Новая заявка с сайта АРМАДА",
       body: body,
-      name: "Сайт МОНОЛИТ"
+      name: "Сайт АРМАДА"
     });
 
     return resultPage("ok");
