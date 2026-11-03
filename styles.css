@@ -1845,3 +1845,71 @@ h1 em, h2 em { color: var(--accent); }
     text-align: center;
   }
 }
+
+
+/* Mobile navigation: drop the glass buttons vertically from top to bottom */
+@media (max-width: 650px), (orientation: landscape) and (max-height: 600px) and (max-width: 1100px) {
+  .main-nav {
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    width: min(240px, calc(100vw - 32px));
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 9px;
+    margin: 0;
+    border-radius: 20px;
+    transform: none;
+  }
+
+  .main-nav.is-open {
+    display: flex;
+  }
+
+  .main-nav.is-open a {
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 62px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 7px 10px;
+    text-align: center;
+    animation-name: armada-menu-item-drop;
+    animation-duration: .32s;
+    animation-timing-function: cubic-bezier(.2,.75,.25,1);
+    animation-fill-mode: both;
+  }
+
+  .main-nav.is-open a:nth-child(1) { animation-delay: .04s; }
+  .main-nav.is-open a:nth-child(2) { animation-delay: .12s; }
+  .main-nav.is-open a:nth-child(3) { animation-delay: .20s; }
+  .main-nav.is-open a:nth-child(4) { animation-delay: .28s; }
+
+  .main-nav.is-open .nav-icon {
+    margin-inline: auto;
+  }
+
+  .main-nav.is-open .nav-label {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+  }
+}
+
+@keyframes armada-menu-item-drop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -16px, 0) scale(.97);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
