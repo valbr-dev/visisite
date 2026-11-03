@@ -264,3 +264,78 @@ h1 em, h2 em { color: var(--accent); font-style: normal; }
 @media (prefers-reduced-motion: reduce) {
   .back-to-top { transition: none; }
 }
+
+
+/* Light architectural palette with warm orange accents */
+:root {
+  --ink: #292725;
+  --muted: #716d68;
+  --paper: #f7f5f1;
+  --white: #fff;
+  --accent: #ed7b32;
+  --line: rgba(41,37,33,.14);
+  --dark: #fff;
+}
+.brand-symbol-img { width: 46px; height: 46px; display: block; flex: 0 0 46px; object-fit: contain; }
+.brand-footer .brand-symbol-img { width: 46px; height: 46px; }
+.site-header { color: var(--ink); border-bottom-color: rgba(255,255,255,.45); }
+.brand-name { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.3); }
+.brand-name small { color: rgba(255,255,255,.85); }
+.main-nav a { background: rgba(250,248,244,.94); color: #302c28; border-color: rgba(255,255,255,.8); box-shadow: 0 5px 18px rgba(0,0,0,.12); }
+.main-nav a:hover, .main-nav a:focus-visible { border-color: var(--accent); background: #fff1e6; color: #c65e1c; }
+.main-nav a:hover .nav-label, .main-nav a:focus-visible .nav-label { color: #c65e1c; }
+.nav-icon { border-color: rgba(237,123,50,.55); color: #d96b27; }
+.nav-icon:hover, .main-nav a:hover .nav-icon, .main-nav a:focus-visible .nav-icon { background: var(--accent); color: #fff; }
+.header-contact { color: #fff; border-color: rgba(255,255,255,.65); }
+.header-contact span, .hero-link span { color: #ff9a56; }
+h1 em, h2 em { color: var(--accent); }
+.eyebrow-light { color: #ffad75; }
+.eyebrow span { background: var(--accent); }
+.button-accent { background: var(--accent); color: #fff; }
+.button-accent:hover { background: #d96822; }
+.intro h2 em, .section-heading h2 em, .process h2 em { color: var(--accent); }
+.stat strong span, .service-card-featured .service-top, .service-arrow { color: var(--accent); }
+.services, .gallery, .case-gallery { background: #f0ede7; }
+.service-grid { border-color: var(--line); }
+.service-card { background: #fff; border-color: var(--line); color: var(--ink); }
+.service-card:hover { background: #fff8f2; }
+.service-card-featured, .service-card-featured:hover { background: #fff; color: var(--ink); }
+.service-card-featured p, .service-card p { color: var(--muted); }
+.service-card-featured .service-top { color: var(--accent); }
+.project-feature { background: #f4f1eb; color: var(--ink); }
+.project-content .section-kicker, .section-kicker-light { color: #d96b27; }
+.project-content > p { color: var(--muted); }
+.benefit-list { border-color: var(--line); }
+.benefit-list li { border-color: var(--line); color: var(--ink); }
+.benefit-list span, .process-step > span { color: var(--accent); }
+.text-button { color: var(--ink); border-color: var(--accent); }
+.text-button span { color: var(--accent); }
+.contact-band { background: #f2e5d9; }
+.contact-copy .section-kicker { color: #a85a2c; }
+.contact-copy h2 em { color: #d96b27; }
+.contact-form { background: #fff; box-shadow: 0 18px 50px rgba(75,54,37,.08); }
+.contact-form label > span { color: var(--accent); }
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(237,123,50,.13); }
+.button-form, .button-form:hover { background: #302c28; color: #fff; }
+.site-footer { background: #eeeae4; color: var(--ink); }
+.footer-top > p { color: var(--muted); }
+.footer-email span { color: var(--accent); }
+.footer-bottom { border-color: var(--line); color: var(--muted); }
+.footer-bottom a { color: var(--ink); }
+.brand-footer .brand-name { color: var(--ink); text-shadow: none; }
+.brand-footer .brand-name small { color: var(--muted); }
+.back-to-top { border-color: rgba(237,123,50,.7); background: rgba(48,44,40,.96); }
+.back-to-top-arrow { border-color: rgba(237,123,50,.7); color: #ff9a56; }
+.back-to-top:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.back-to-top:hover .back-to-top-arrow { color: #fff; border-color: rgba(255,255,255,.5); }
+.case-intro h2 em, .case-gallery h2 em, .case-process h2 em { color: var(--accent); }
+.case-gallery { background: #f0ede7; }
+.case-stage > span { color: var(--accent); }
+.case-cta { background: #f2e5d9; }
+.case-cta .button { background: #302c28; color: #fff; }
+.case-footer-link { color: var(--accent)!important; }
+@media (max-width: 650px) {
+  .main-nav { background: #f7f5f1; box-shadow: 0 12px 24px rgba(40,32,25,.12); }
+  .main-nav a { background: #fff; border-color: rgba(41,37,33,.12); color: var(--ink); }
+  .menu-toggle { border-color: rgba(255,255,255,.65); background: rgba(35,31,27,.24); }
+}
