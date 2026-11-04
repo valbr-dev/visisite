@@ -25,10 +25,11 @@
   client.from("site_content").select("content").eq("id","main").maybeSingle().then(({data,error})=>{
     if(error)return;
     const projects=data?.content?.portfolio_projects;
-    if(!Array.isArray(projects)||!projects.length)return;
+    const grid=document.querySelector(".works-grid");
+    const count=document.querySelector("#works-count");
+    if(!Array.isArray(projects)||!projects.length){if(count)count.textContent="00";if(grid)grid.innerHTML='<p class="works-empty">Пока нет добавленных проектов. Добавьте первый проект через админ-панель.</p>';document.querySelectorAll(".work-spoiler-section,.works-video-section").forEach(section=>section.remove());return;}
     const valid=projects.filter(p=>p&&p.title&&Array.isArray(p.images)).slice(0,100);
     if(!valid.length)return;
-    const grid=document.querySelector(".works-grid");
     if(!grid)return;
     const sectionIds=[];
     grid.innerHTML=valid.map((p,i)=>{
@@ -39,7 +40,7 @@
     }).join("");
     const catalog=document.querySelector(".works-catalog");
     const disclaimer=catalog?.querySelector(".works-disclaimer");if(disclaimer)disclaimer.remove();
-    const count=document.querySelector(".works-count strong");if(count)count.textContent=String(valid.length).padStart(2,"0");
+    if(count)count.textContent=String(valid.length).padStart(2,"0");
     document.querySelectorAll(".work-spoiler-section").forEach(section=>section.remove());
     const sampleVideos=document.querySelector(".works-video-section");if(sampleVideos)sampleVideos.remove();
     const details=valid.map((p,i)=>{
