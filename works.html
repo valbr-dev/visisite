@@ -225,7 +225,44 @@
       .work-card-spoiler .works-card-media img{width:100%;height:auto;object-fit:contain}
       .work-card-spoiler .works-card-content{padding:18px}
     }
-\n  </style>
+\n
+    /* Stable project card layout: image, caption and expanded details stay in normal flow. */
+    .works-grid{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:28px}
+    .work-card-spoiler{display:block;width:100%;min-width:0;min-height:0;height:auto;overflow:hidden;background:#292725;color:#fff}
+    .work-card-spoiler .work-card-summary{display:flex;flex-direction:column;position:relative;width:100%;min-height:0;height:auto;padding:0;margin:0;overflow:hidden;list-style:none;cursor:pointer}
+    .work-card-spoiler .work-card-summary::-webkit-details-marker{display:none}
+    .work-card-spoiler .works-card-media{display:block;position:relative;inset:auto;width:100%;height:auto;aspect-ratio:auto;overflow:hidden;background:#e5dfd7;line-height:0}
+    .work-card-spoiler .works-card-media:after{content:none}
+    .work-card-spoiler .works-card-media img{display:block;position:relative;width:100%;height:auto;max-height:none;object-fit:contain;transform:none;filter:none}
+    .work-card-spoiler .work-card-summary:hover .works-card-media img{transform:none;filter:none}
+    .work-card-spoiler .works-card-content{display:flex;position:relative;inset:auto;z-index:1;flex-direction:column;align-items:flex-start;gap:0;width:100%;padding:clamp(20px,3vw,36px);box-sizing:border-box;background:#292725;color:#fff}
+    .work-card-spoiler .works-card-meta{position:static;margin:0 0 12px}
+    .work-card-spoiler .works-card h3{position:static;max-width:900px;margin:0;color:#fff;font-size:clamp(25px,3.2vw,42px);line-height:1.08}
+    .work-card-spoiler .works-card-link{display:flex;position:static;align-items:center;gap:12px;margin:20px 0 0;color:#fff}
+    .work-card-spoiler .work-card-plus{flex:0 0 30px}
+    .work-card-spoiler .work-spoiler-content{display:block;position:relative;width:100%;padding:clamp(20px,3vw,36px);box-sizing:border-box;background:#fff;color:#292725;overflow:visible}
+    .work-card-spoiler .work-detail-head{display:block;margin:0 0 26px}
+    .work-card-spoiler .work-detail-head>div:first-child{display:none}
+    .work-card-spoiler .work-detail-head>div:last-child{max-width:900px}
+    .work-card-spoiler .work-detail-head p{margin:0;color:#6f6a64;font-size:14px;line-height:1.9}
+    .work-card-spoiler .work-specs{display:flex;flex-wrap:wrap;gap:24px;margin-top:22px}
+    .work-card-spoiler .work-media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;width:100%}
+    .work-card-spoiler .work-photo,.work-card-spoiler .work-photo:first-child{position:relative;width:100%;height:260px;min-width:0;margin:0;grid-row:auto;grid-column:auto;overflow:hidden}
+    .work-card-spoiler .work-photo img{display:block;width:100%;height:100%;object-fit:cover}
+    .work-card-spoiler .work-video-row{display:grid;grid-template-columns:minmax(0,1fr);width:100%;margin-top:28px;gap:14px}
+    .work-card-spoiler .work-video{width:100%;min-width:0}
+    .work-card-spoiler .work-video-copy{display:none}
+    @media(max-width:700px){
+      .works-grid{gap:18px}
+      .work-card-spoiler .works-card-content{padding:20px 18px}
+      .work-card-spoiler .work-spoiler-content{padding:22px 18px}
+      .work-card-spoiler .work-card-summary,.work-card-spoiler:nth-child(3n) .work-card-summary{min-height:0}
+      .work-card-spoiler .work-media-grid{grid-template-columns:1fr 1fr;gap:8px}
+      .work-card-spoiler .work-photo,.work-card-spoiler .work-photo:first-child{height:155px}
+      .work-card-spoiler .work-photo:first-child{grid-column:1/-1;height:220px}
+      .work-card-spoiler .work-video-row{grid-template-columns:minmax(0,1fr)}
+    }
+  </style>
 </head>
 <body class="works-page">
   <header class="site-header works-site-header">
