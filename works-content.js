@@ -22,14 +22,45 @@
   };
   const categoryNames={house:"ДОМА",interior:"ИНТЕРЬЕРЫ",commercial:"КОММЕРЦИЯ"};
   const client=window.supabase.createClient(window.ARMADA_SUPABASE_URL,window.ARMADA_SUPABASE_ANON_KEY);
-  client.from("site_content").select("content").eq("id","main").maybeSingle().then(({data,error})=>{
-    if(error)return;
+  const grid=document.querySelector(".works-grid");
+  const count=document.querySelector("#works-count");
+  const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+  async function loadProjects(){
+    if(grid)grid.innerHTML='<p class="works-empty">Загружаем проекты…</p>';
+    let data=null,lastError=null;
+    for(let attempt=0;attempt<3;attempt++){
+      try{
+        const result=await client.from("site_content").select("content").eq("id","main").maybeSingle();
+        if(result.error)throw result.error;
+        data=result.data;
+        lastError=null;
+        break;
+      }catch(error){
+        lastError=error;
+        console.warn("ARMADA: ошибка загрузки портфолио, попытка "+(attempt+1),error);
+        if(attempt<2)await wait(700*(attempt+1));
+      }
+    }
+    if(lastError){
+      if(grid)grid.innerHTML='<p class="works-empty">Не удалось загрузить проекты. Проверьте подключение и обновите страницу.</p>';
+      if(count)count.textContent="—";
+      console.error("ARMADA: портфолио не загружено после повторных попыток",lastError);
+      return;
+    }
     const projects=data?.content?.portfolio_projects;
-    const grid=document.querySelector(".works-grid");
-    const count=document.querySelector("#works-count");
-    if(!Array.isArray(projects)||!projects.length){if(count)count.textContent="00";if(grid)grid.innerHTML='<p class="works-empty">Пока нет добавленных проектов. Добавьте первый проект через админ-панель.</p>';document.querySelectorAll(".work-spoiler-section,.works-video-section").forEach(section=>section.remove());return;}
+    if(!Array.isArray(projects)||!projects.length){
+      if(count)count.textContent="00";
+      if(grid)grid.innerHTML='<p class="works-empty">Пока нет добавленных проектов. Добавьте первый проект через админ-панель.</p>';
+      document.querySelectorAll(".work-spoiler-section,.works-video-section").forEach(section=>section.remove());
+      return;
+    }
     const valid=projects.filter(p=>p&&p.title&&Array.isArray(p.images)).slice(0,100);
-    if(!valid.length)return;
+    if(!valid.length){
+      if(count)count.textContent="00";
+      if(grid)grid.innerHTML='<p class="works-empty">В базе есть записи, но ни одна из них не содержит корректно заполненный проект.</p>';
+      document.querySelectorAll(".work-spoiler-section,.works-video-section").forEach(section=>section.remove());
+      return;
+    }
     if(!grid)return;
     const sectionIds=[];
     grid.innerHTML=valid.map((p,i)=>{
@@ -75,5 +106,6 @@
       const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-in");observer.unobserve(entry.target);}}),{threshold:.08});
       document.querySelectorAll(".works-reveal:not(.is-in)").forEach(el=>observer.observe(el));
     }else document.querySelectorAll(".works-reveal").forEach(el=>el.classList.add("is-in"));
-  });
+  }
+  loadProjects();
 })();
