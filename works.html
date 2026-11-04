@@ -50,6 +50,7 @@
     .works-filter:hover{transform:translateY(-2px);border-color:var(--ink)}
     .works-filter.is-active{background:var(--works-dark);border-color:var(--works-dark);color:#fff}
     .works-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+    .works-empty{grid-column:1/-1;margin:0;padding:42px 24px;border:1px solid var(--line);color:var(--muted);font-size:13px;line-height:1.8;text-align:center}
     .works-card{position:relative;min-height:390px;overflow:hidden;background:#e5dfd7;color:#fff;isolation:isolate}
     .works-card:nth-child(3n){min-height:340px}
     .works-card[hidden]{display:none}
@@ -213,7 +214,7 @@
           <h2>Не просто объекты.<br><em>Продуманные пространства.</em></h2>
           <div class="works-intro-bottom">
             <p>Здесь собраны примеры архитектурных решений, строительных этапов и интерьерных идей. Каждый проект начинается с задачи и заканчивается вниманием к деталям.</p>
-            <div class="works-count"><strong>03</strong> / ПРИМЕРА ПРОЕКТОВ</div>
+            <div class="works-count"><strong id="works-count">00</strong> / ПРОЕКТОВ</div>
           </div>
         </div>
       </div>
@@ -230,97 +231,8 @@
             <button class="works-filter" type="button" data-filter="commercial">Коммерция</button>
           </div>
         </div>
-        <div class="works-grid">
-          <a class="works-card works-reveal" href="#work-house" data-category="house">
-            <div class="works-card-media"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1500&q=88" alt="Современный загородный дом" loading="lazy"></div>
-            <div class="works-card-content"><div class="works-card-meta"><b>01</b> ЧАСТНОЕ СТРОИТЕЛЬСТВО</div><h3>Дом с панорамным остеклением</h3><span class="works-card-link">СМОТРЕТЬ ПРОЕКТ <span>↗</span></span></div>
-          </a>
-          <a class="works-card works-reveal" href="#work-interior" data-category="interior">
-            <div class="works-card-media"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1300&q=88" alt="Современный интерьер гостиной" loading="lazy"></div>
-            <div class="works-card-content"><div class="works-card-meta"><b>02</b> ИНТЕРЬЕР И ОТДЕЛКА</div><h3>Светлое пространство для жизни</h3><span class="works-card-link">СМОТРЕТЬ ПРОЕКТ <span>↗</span></span></div>
-          </a>
-          <a class="works-card works-reveal" href="#work-commercial" data-category="commercial">
-            <div class="works-card-media"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1500&q=88" alt="Современное коммерческое здание" loading="lazy"></div>
-            <div class="works-card-content"><div class="works-card-meta"><b>03</b> КОММЕРЧЕСКАЯ НЕДВИЖИМОСТЬ</div><h3>Современное деловое пространство</h3><span class="works-card-link">СМОТРЕТЬ ПРОЕКТ <span>↗</span></span></div>
-          </a>
-        </div>
-        <p class="works-disclaimer">Демонстрационная подборка: фотографии и характеристики используются для примера оформления портфолио и не подтверждают выполнение этих объектов компанией АРМАДА.</p>
-      </div>
-    </section>
+        <div class="works-grid" id="works-grid"><p class="works-empty">Проекты появятся здесь после добавления через админ-панель.</p></div>
 
-    <section class="work-detail work-spoiler-section" id="work-house">
-      <div class="container">
-        <details class="work-spoiler">
-          <summary class="work-spoiler-summary">
-            <span class="work-spoiler-number">01</span>
-            <span class="work-spoiler-title"><small>Частный дом</small><strong>Дом с панорамным остеклением</strong><em>Панорамное остекление · 180 м²</em></span>
-            <span class="work-spoiler-toggle" aria-hidden="true">+</span>
-          </summary>
-          <div class="work-spoiler-content">
-        <div class="work-detail-head works-reveal">
-          <div><span class="work-detail-number">01 / ЧАСТНОЕ СТРОИТЕЛЬСТВО</span><h2>Дом, где всё<br><em>на своём месте.</em></h2></div>
-          <div><p>Концепция одноэтажного загородного дома с лаконичной архитектурой, просторной общей зоной и выходом на террасу. В центре решения — естественный свет, удобная планировка и спокойные материалы.</p><div class="work-specs"><div><strong>180 м²</strong><span>Площадь</span></div><div><strong>1 этаж</strong><span>Этажность</span></div><div><strong>Под ключ</strong><span>Формат</span></div><div><strong>Современный</strong><span>Стиль</span></div></div></div>
-        </div>
-        <div class="work-media-grid">
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=90" alt="Фасад современного загородного дома" loading="lazy"></figure>
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=88" alt="Кухня и гостиная в современном доме" loading="lazy"></figure>
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=88" alt="Детали отделки современной гостиной" loading="lazy"></figure>
-        </div>
-        <p class="work-detail-note">Иллюстративные изображения. Площадь и характеристики приведены как демонстрационный пример.</p>
-        <div class="work-video-row works-reveal">
-          <div class="work-video"><iframe src="https://www.youtube-nocookie.com/embed/HYsWbDA0xIc?rel=0" title="Видео о цифровом процессе строительства дома" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-          <div class="work-video-copy"><span class="section-kicker">ВИДЕО / ПРОЦЕСС</span><h3>Как идея становится пространством.</h3><p>Видео для демонстрации формата портфолио и визуального сопровождения строительного проекта.</p><span class="work-video-label">ВИДЕООБЗОР ПРОЕКТА</span></div>
-        </div>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <section class="work-detail work-spoiler-section" id="work-interior">
-      <div class="container">
-        <details class="work-spoiler">
-          <summary class="work-spoiler-summary">
-            <span class="work-spoiler-number">02</span>
-            <span class="work-spoiler-title"><small>Интерьер</small><strong>Светлое пространство для жизни</strong><em>Светлое пространство · 92 м²</em></span>
-            <span class="work-spoiler-toggle" aria-hidden="true">+</span>
-          </summary>
-          <div class="work-spoiler-content">
-        <div class="work-detail-head works-reveal">
-          <div><span class="work-detail-number">02 / ИНТЕРЬЕР И ОТДЕЛКА</span><h2>Свет, фактуры<br><em>и баланс.</em></h2></div>
-          <div><p>Пример современного жилого интерьера, где визуальная лёгкость сочетается с практичностью. Нейтральная палитра, натуральные текстуры, продуманное освещение и минимум лишних деталей.</p><div class="work-specs"><div><strong>92 м²</strong><span>Площадь</span></div><div><strong>3 комнаты</strong><span>Планировка</span></div><div><strong>Современный</strong><span>Стиль</span></div></div></div>
-        </div>
-        <div class="work-media-grid">
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1500&q=90" alt="Светлая гостиная с панорамным окном" loading="lazy"></figure>
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=88" alt="Современная кухня" loading="lazy"></figure>
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=88" alt="Интерьер спальни в спокойной палитре" loading="lazy"></figure>
-        </div>
-        <p class="work-detail-note">Иллюстративные изображения. Пример состава работ: подготовка поверхностей, инженерные решения, отделка и монтаж освещения.</p>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <section class="work-detail work-spoiler-section" id="work-commercial">
-      <div class="container">
-        <details class="work-spoiler">
-          <summary class="work-spoiler-summary">
-            <span class="work-spoiler-number">03</span>
-            <span class="work-spoiler-title"><small>Коммерческий объект</small><strong>Современное деловое пространство</strong><em>Деловое пространство · 420 м²</em></span>
-            <span class="work-spoiler-toggle" aria-hidden="true">+</span>
-          </summary>
-          <div class="work-spoiler-content">
-        <div class="work-detail-head works-reveal">
-          <div><span class="work-detail-number">03 / КОММЕРЧЕСКИЕ ОБЪЕКТЫ</span><h2>Пространство<br><em>для развития.</em></h2></div>
-          <div><p>Концепция делового пространства с выразительной геометрией фасада, большими окнами и функциональными внутренними зонами. Решение ориентировано на удобство посетителей и ежедневную работу команды.</p><div class="work-specs"><div><strong>420 м²</strong><span>Площадь</span></div><div><strong>2 этажа</strong><span>Этажность</span></div><div><strong>Коммерция</strong><span>Назначение</span></div></div></div>
-        </div>
-        <div class="work-media-grid">
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=90" alt="Современное офисное здание" loading="lazy"></figure>
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=88" alt="Офисное пространство с рабочими местами" loading="lazy"></figure>
-          <figure class="work-photo works-reveal"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=88" alt="Современная переговорная" loading="lazy"></figure>
-        </div>
-        <p class="work-detail-note">Иллюстративные изображения. Площадь и характеристики приведены для демонстрации структуры карточки проекта.</p>
-          </div>
-        </details>
       </div>
     </section>
 
@@ -328,26 +240,6 @@
       <div class="container works-quote-inner works-reveal">
         <div class="works-index" style="color:rgba(255,255,255,.55)">04 / ПРИНЦИП</div>
         <div><h2>Хороший результат<br>начинается с <em>точного решения.</em></h2><p>Мы уделяем внимание не только внешнему виду, но и тому, как пространство работает каждый день: от планировки и инженерии до материалов и финальных штрихов.</p></div>
-      </div>
-    </section>
-
-    <section class="works-video-section" id="video">
-      <div class="container">
-        <div class="works-video-heading works-reveal">
-          <div><span class="section-kicker">05 / ВИДЕОГАЛЕРЕЯ</span><h2>Работа в движении.<br><em>Результат в деталях.</em></h2></div>
-          <p>Видеоматериалы помогают увидеть масштаб, ход работ и особенности строительного процесса.</p>
-        </div>
-        <div class="works-video-grid">
-          <article class="works-video-card works-reveal">
-            <div class="work-video"><iframe src="https://www.youtube-nocookie.com/embed/37MMpZ0ea3I?rel=0" title="Видео о строительстве дома" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="works-video-card-copy"><span>ВИДЕО 01 / СТРОИТЕЛЬСТВО</span><h3>Возведение стен и конструкций</h3></div>
-          </article>
-          <article class="works-video-card works-reveal">
-            <div class="work-video"><iframe src="https://www.youtube-nocookie.com/embed/1O1yRZO2Fg?rel=0" title="Видео о строительстве двухэтажной конструкции" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="works-video-card-copy"><span>ВИДЕО 02 / ТЕХНОЛОГИИ</span><h3>Конструктивные решения и технологии</h3></div>
-          </article>
-        </div>
-        <p class="works-disclaimer">Видеоролики — демонстрационные материалы стороннего источника, не съёмка объектов компании АРМАДА.</p>
       </div>
     </section>
 
