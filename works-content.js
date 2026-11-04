@@ -62,15 +62,18 @@
       return;
     }
     if(!grid)return;
-    const sectionIds=[];
     grid.innerHTML=valid.map((p,i)=>{
-      const id="portfolio-"+(i+1);
-      sectionIds.push(id);
-      const category=categoryNames[p.category]?"": "ДРУГИЕ РАБОТЫ";
-      return '<a class="works-card works-reveal" href="#'+id+'" data-category="'+escapeHtml(p.category||"house")+'"><div class="works-card-media"><img src="'+escapeHtml(p.images[0]||"")+'" alt="'+escapeHtml(p.title)+'" loading="lazy"></div><div class="works-card-content"><div class="works-card-meta"><b>'+String(i+1).padStart(2,"0")+'</b> '+(categoryNames[p.category]||category)+'</div><h3>'+escapeHtml(p.title)+'</h3><span class="works-card-link">СМОТРЕТЬ ПРОЕКТ <span>↗</span></span></div></a>';
+      const category=categoryNames[p.category]||"ДРУГИЕ РАБОТЫ";
+      const title=escapeHtml(p.title);
+      const cover=escapeHtml(p.images[0]||"");
+      const images=p.images.filter(Boolean).slice(1,15);
+      const specs=[["area","Площадь"],["floors","Этажность"],["format","Формат"],["style","Стиль / назначение"]].filter(([key])=>p[key]);
+      const embed=videoEmbed(p.videoUrl);
+      const gallery=images.length?'<div class="work-media-grid">'+images.map((src,j)=>'<figure class="work-photo works-reveal"><img src="'+escapeHtml(src)+'" alt="'+title+' — фото '+(j+2)+'" loading="lazy"></figure>').join("")+'</div>':"";
+      const specMarkup=specs.length?'<div class="work-specs">'+specs.map(([key,label])=>'<div><strong>'+escapeHtml(p[key])+'</strong><span>'+label+'</span></div>').join("")+'</div>':"";
+      const video=embed?'<div class="work-video-row works-reveal"><div class="work-video"><iframe src="'+escapeHtml(embed)+'" title="Видео проекта '+title+'" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><div class="work-video-copy"><span class="section-kicker">ВИДЕО / ПРОЕКТ</span><h3>'+title+'</h3><p>Видеоматериал проекта.</p><span class="work-video-label">ВИДЕООБЗОР</span></div></div>':"";
+      return '<details class="works-card work-card-spoiler works-reveal" data-category="'+escapeHtml(p.category||"house")+'"><summary class="works-card-summary"><div class="works-card-media"><img src="'+cover+'" alt="'+title+'" loading="lazy"></div><div class="works-card-content"><div class="works-card-meta"><b>'+String(i+1).padStart(2,"0")+'</b> '+category+'</div><h3>'+title+'</h3><span class="works-card-link"><span class="work-card-open-label">СМОТРЕТЬ ПРОЕКТ</span><span class="work-card-plus" aria-hidden="true">+</span></span></div></summary><div class="work-spoiler-content"><div class="work-detail-head"><div><span class="work-detail-number">'+String(i+1).padStart(2,"0")+' / '+category+'</span><h2>'+title+'</h2></div><div><p>'+escapeHtml(p.description||"")+'</p>'+specMarkup+'</div></div>'+gallery+video+'</div></details>';
     }).join("");
-    const catalog=document.querySelector(".works-catalog");
-    const disclaimer=catalog?.querySelector(".works-disclaimer");if(disclaimer)disclaimer.remove();
     if(count)count.textContent=String(valid.length).padStart(2,"0");
     document.querySelectorAll(".work-spoiler-section").forEach(section=>section.remove());
     const sampleVideos=document.querySelector(".works-video-section");if(sampleVideos)sampleVideos.remove();
@@ -83,18 +86,10 @@
     }).join("");
     const quote=document.querySelector(".works-quote");
     quote?.insertAdjacentHTML("beforebegin",details);
-    document.querySelectorAll(".work-spoiler-section").forEach((section,i)=>{
-      const detail=section.querySelector("details");
-      document.querySelector('.works-card[href="#'+sectionIds[i]+'"]')?.addEventListener("click",()=>{detail.open=true;});
-    });
     document.querySelectorAll(".works-filter").forEach(button=>button.addEventListener("click",()=>{
       const filter=button.dataset.filter;
       document.querySelectorAll(".works-card").forEach(card=>{card.hidden=filter!=="all"&&card.dataset.category!==filter;});
     }));
-    const side=document.querySelector(".works-side-index");
-    if(side){
-      side.innerHTML='<a href="#top">00</a><a href="#catalog" class="is-active">01</a>'+sectionIds.map((id,i)=>'<a href="#'+id+'">'+String(i+2).padStart(2,"0")+'</a>').join("")+'<a href="#contact">'+String(valid.length+2).padStart(2,"0")+'</a>';
-    }
     const lightbox=document.getElementById("works-lightbox"),lightboxImage=lightbox?.querySelector("img");
     if(lightbox&&lightboxImage){
       document.addEventListener("click",event=>{
