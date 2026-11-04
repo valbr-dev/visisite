@@ -6,6 +6,7 @@
   try { localStorage.removeItem("armada_github_token"); } catch (_) {}
   let content = {};
   let activeSection = "home";
+  let portfolioDraft = [];
   const definitions = {
     home:{title:"Главный экран",eyebrow:"01 / ГЛАВНАЯ",fields:[
       ["hero_kicker","Надпись над заголовком","text"],["hero_title","Главный заголовок","textarea"],["hero_description","Описание главного экрана","textarea"],["hero_image","Фоновая фотография главного экрана","image"]
@@ -27,7 +28,8 @@
     ]},
     example:{title:"Пример работ",eyebrow:"07 / ПРИМЕР РАБОТ",fields:[
       ["case_title","Заголовок проекта","textarea"],["case_lead","Описание проекта","textarea"],["case_image_1","Главная фотография проекта","image"],["case_image_2","Фотография 2","image"],["case_image_3","Фотография 3","image"]
-    ]}
+    ]},
+    projects:{title:"Портфолио — наши работы",eyebrow:"08 / ПОРТФОЛИО",fields:[]}
   };
   const defaults = {
     hero_kicker:"СТРОИТЕЛЬСТВО ПОД КЛЮЧ",hero_title:"Пространство для больших планов.",hero_description:"Создаём дома и коммерческие объекты, в которых хочется жить, работать и развиваться. От первого чертежа до последнего штриха.",
@@ -64,6 +66,7 @@
     return value;
   }
   function renderFields() {
+    if (activeSection === "projects") { renderProjects(); return; }
     const section = definitions[activeSection];
     $("#section-title").textContent = section.title;
     $("#section-eyebrow").textContent = section.eyebrow;
@@ -129,7 +132,96 @@
       $("#fields").append(wrap);
     });
   }
-  function showMessage(message,error=false) { const el=$("#editor-message"); el.textContent=message; el.className="message "+(error?"error":"success"); }
+
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+  function renderProjects() {
+    $("#section-title").textContent=definitions.projects.title;
+    $("#section-eyebrow").textContent=definitions.projects.eyebrow;
+    portfolioDraft=Array.isArray(content.portfolio_projects)?content.portfolio_projects.map(p=>({...p,images:Array.isArray(p.images)?p.images.slice(0,15):[]})):[];
+    const host=$("#fields");host.className="fields projects-fields";host.innerHTML="";
+    const intro=document.createElement("div");intro.className="projects-intro field full";
+    intro.innerHTML='<p>Создавай карточки портфолио. Для каждого проекта можно добавить до 15 фотографий и одну ссылку на YouTube или VK Видео. Фотографии загружаются прямо в GitHub.</p><button type="button" class="primary" id="add-project">＋ Добавить проект</button>';
+    host.append(intro);
+    const list=document.createElement("div");list.className="projects-list field full";list.id="projects-list";host.append(list);
+    portfolioDraft.forEach((project,index)=>list.append(createProjectEditor(project,index)));
+    $("#add-project").addEventListener("click",()=>{
+      const project={id:"project-"+Date.now()+"-"+Math.random().toString(36).slice(2,7),category:"house",title:"Новый проект",subtitle:"",description:"",area:"",floors:"",format:"",style:"",images:[],videoUrl:""};
+      portfolioDraft.push(project);list.append(createProjectEditor(project,portfolioDraft.length-1));$("#saved-state").textContent="Есть несохранённые изменения";
+    });
+    host.querySelectorAll("input,textarea,select").forEach(el=>el.addEventListener("input",()=>{$("#saved-state").textContent="Есть несохранённые изменения";}));
+  }
+  function createProjectEditor(project,index) {
+    const card=document.createElement("article");card.className="project-editor";card.dataset.projectIndex=String(index);
+    const category=project.category||"house";
+    card.innerHTML=`
+      <div class="project-editor-head"><div><span class="eyebrow">ПРОЕКТ ${String(index+1).padStart(2,"0")}</span><strong>${escapeHtml(project.title||"Новый проект")}</strong></div><button type="button" class="ghost remove-project">Удалить проект</button></div>
+      <div class="project-editor-grid">
+        <label>Категория<select data-prop="category"><option value="house" ${category==="house"?"selected":""}>Дома</option><option value="interior" ${category==="interior"?"selected":""}>Интерьеры</option><option value="commercial" ${category==="commercial"?"selected":""}>Коммерция</option></select></label>
+        <label>Название проекта<input data-prop="title" value="${escapeHtml(project.title)}" placeholder="Например, Загородный дом"></label>
+        <label class="wide">Короткая подпись<input data-prop="subtitle" value="${escapeHtml(project.subtitle)}" placeholder="Частное строительство · 180 м²"></label>
+        <label class="wide">Описание проекта<textarea data-prop="description" placeholder="Расскажи о проекте...">${escapeHtml(project.description)}</textarea></label>
+        <label>Площадь<input data-prop="area" value="${escapeHtml(project.area)}" placeholder="180 м²"></label>
+        <label>Этажность<input data-prop="floors" value="${escapeHtml(project.floors)}" placeholder="2 этажа"></label>
+        <label>Формат работ<input data-prop="format" value="${escapeHtml(project.format)}" placeholder="Под ключ"></label>
+        <label>Стиль / назначение<input data-prop="style" value="${escapeHtml(project.style)}" placeholder="Современный"></label>
+        <label class="wide">Ссылка на видео YouTube или VK Видео<input data-prop="videoUrl" type="url" value="${escapeHtml(project.videoUrl)}" placeholder="https://youtu.be/... или https://vk.com/video..."><small>Можно вставить обычную ссылку на ролик — сайт преобразует её во встроенный плеер.</small></label>
+      </div>
+      <div class="project-images-head"><div><strong>Фотографии</strong><small class="image-counter">${project.images.length} из 15</small></div><button type="button" class="ghost add-project-image" ${project.images.length>=15?"disabled":""}>＋ Добавить фото</button></div>
+      <div class="project-images-list"></div>`;
+    const imageList=card.querySelector(".project-images-list");
+    (project.images||[]).forEach((url,imageIndex)=>imageList.append(createProjectImageRow(url,imageIndex)));
+    card.querySelector(".add-project-image").addEventListener("click",()=>{
+      const count=imageList.children.length;if(count>=15)return;
+      imageList.append(createProjectImageRow("",count));
+      card.querySelector(".image-counter").textContent=(count+1)+" из 15";
+      card.querySelector(".add-project-image").disabled=count+1>=15;
+      $("#saved-state").textContent="Есть несохранённые изменения";
+    });
+    card.querySelector(".remove-project").addEventListener("click",()=>{
+      if(!confirm("Удалить этот проект из портфолио?"))return;
+      card.remove();$("#saved-state").textContent="Есть несохранённые изменения";
+    });
+    return card;
+  }
+  function createProjectImageRow(url,index) {
+    const row=document.createElement("div");row.className="project-image-row";
+    row.innerHTML=`<img class="project-image-preview" alt="Предпросмотр фото" src="${escapeHtml(url||"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=")}"><div class="project-image-controls"><label>Фотография ${index+1}<input type="url" class="project-image-url" value="${escapeHtml(url)}" placeholder="https://..."></label><div class="project-image-actions"><button type="button" class="ghost upload-project-image">Выбрать и загрузить</button><button type="button" class="ghost remove-project-image">Убрать</button><input type="file" accept="image/jpeg,image/png,image/webp" class="image-file-input"></div></div>`;
+    const input=row.querySelector(".project-image-url"),preview=row.querySelector("img"),file=row.querySelector("input[type=file]"),upload=row.querySelector(".upload-project-image");
+    input.addEventListener("input",()=>{preview.src=input.value||"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";$("#saved-state").textContent="Есть несохранённые изменения";});
+    upload.addEventListener("click",()=>file.click());
+    file.addEventListener("change",async()=>{
+      const selected=file.files?.[0];if(!selected)return;
+      if(!["image/jpeg","image/png","image/webp"].includes(selected.type)){showMessage("Поддерживаются только JPG, PNG и WebP.",true);return;}
+      if(selected.size>4*1024*1024){showMessage("Файл больше 4 МБ. Максимум — 4 МБ на фотографию.",true);return;}
+      upload.disabled=true;upload.textContent="Загружаю…";
+      try{
+        const base64=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=()=>reject(new Error("Не удалось прочитать файл."));reader.readAsDataURL(selected);});
+        // case_image_1 is an existing server-approved upload key; unique filenames are generated for every upload.
+        const {data,error}=await db.functions.invoke("upload-image",{body:{key:"case_image_1",fileName:selected.name,contentType:selected.type,base64}});
+        if(error){let detail=error.message||"Ошибка вызова функции";try{const body=await error.context?.json?.();if(body?.error)detail=body.error;}catch(_){}throw new Error(detail);}
+        if(!data?.imageUrl)throw new Error(data?.error||"Сервер не вернул ссылку.");
+        input.value=data.imageUrl;preview.src=data.imageUrl;$("#saved-state").textContent="Есть несохранённые изменения";showMessage("Фотография загружена в GitHub. Не забудь сохранить проект.");
+      }catch(error){showMessage("Не удалось загрузить фото: "+(error?.message||String(error)),true);}
+      finally{upload.disabled=false;upload.textContent="Выбрать и загрузить";file.value="";}
+    });
+    row.querySelector(".remove-project-image").addEventListener("click",()=>{row.remove();const card=row.closest(".project-editor");const rows=[...card.querySelectorAll(".project-image-row")];rows.forEach((item,i)=>{item.querySelector("label").firstChild.textContent="Фотография "+(i+1);});card.querySelector(".image-counter").textContent=rows.length+" из 15";card.querySelector(".add-project-image").disabled=rows.length>=15;$("#saved-state").textContent="Есть несохранённые изменения";});
+    return row;
+  }
+  async function saveProjects() {
+    const projects=[];
+    document.querySelectorAll(".project-editor").forEach(card=>{
+      const get=prop=>card.querySelector('[data-prop="'+prop+'"]')?.value.trim()||"";
+      const images=[...card.querySelectorAll(".project-image-url")].map(input=>input.value.trim()).filter(Boolean).slice(0,15);
+      const project={id:portfolioDraft[Number(card.dataset.projectIndex)]?.id||"project-"+Date.now(),category:get("category"),title:get("title"),subtitle:get("subtitle"),description:get("description"),area:get("area"),floors:get("floors"),format:get("format"),style:get("style"),images,videoUrl:get("videoUrl")};
+      if(project.title)projects.push(project);
+    });
+    content.portfolio_projects=projects;
+    const {error}=await db.from("site_content").upsert({id:"main",content,updated_at:new Date().toISOString()},{onConflict:"id"});
+    if(error)throw error;
+    portfolioDraft=projects;$("#saved-state").textContent="Сохранено";
+  }
+
+    function showMessage(message,error=false) { const el=$("#editor-message"); el.textContent=message; el.className="message "+(error?"error":"success"); }
   $("#login-form").addEventListener("submit",async e=>{
     e.preventDefault();
     const button = $("#login-form").querySelector('button[type="submit"]');
@@ -175,7 +267,7 @@
   $("#content-form").addEventListener("submit",async e=>{
     e.preventDefault();
     $("#saved-state").textContent="Сохраняю…";
-    try{await saveContent();showMessage("Изменения сохранены. Обнови сайт, чтобы увидеть результат.");}
+    try{if(activeSection==="projects")await saveProjects();else await saveContent();showMessage("Изменения сохранены. Обнови сайт, чтобы увидеть результат.");}
     catch(error){showMessage("Ошибка сохранения: "+error.message,true);$("#saved-state").textContent="Не сохранено";}
   });
   db.auth.getSession().then(({data})=>{if(data.session)showEditor();});
