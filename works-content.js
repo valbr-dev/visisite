@@ -40,6 +40,8 @@
     const catalog=document.querySelector(".works-catalog");
     const disclaimer=catalog?.querySelector(".works-disclaimer");if(disclaimer)disclaimer.remove();
     const count=document.querySelector(".works-count strong");if(count)count.textContent=String(valid.length).padStart(2,"0");
+    document.querySelectorAll(".work-spoiler-section").forEach(section=>section.remove());
+    const sampleVideos=document.querySelector(".works-video-section");if(sampleVideos)sampleVideos.remove();
     const details=valid.map((p,i)=>{
       const id=sectionIds[i],images=p.images.filter(Boolean).slice(0,15);
       const specs=[["area","Площадь"],["floors","Этажность"],["format","Формат"],["style","Стиль / назначение"]].filter(([key])=>p[key]);
