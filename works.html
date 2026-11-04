@@ -123,9 +123,14 @@
     .works-side-index a:before{content:"";width:13px;height:1px;background:currentColor;transition:width .2s}
     .works-side-index a.is-active{color:#ed7b32}
     .works-side-index a.is-active:before{width:25px}
-    .works-top{position:fixed;z-index:20;right:24px;bottom:24px;display:flex;align-items:center;justify-content:center;gap:9px;min-width:112px;height:48px;padding:0 16px;border:1px solid rgba(237,123,50,.72);background:rgba(41,37,33,.94);color:#fff;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s,visibility .25s,transform .25s,background .2s}
-    .works-top.is-visible{opacity:1;visibility:visible;transform:none}
-    .works-top:hover{background:var(--accent);color:var(--ink)}
+    .works-top{position:fixed;z-index:20;right:30px;bottom:30px;display:flex;align-items:center;gap:11px;min-height:50px;padding:0 17px 0 13px;border:1px solid rgba(237,123,50,.72);border-radius:2px;background:rgba(26,32,28,.94);color:#fff;font:800 9px/1 "Manrope",Arial,sans-serif;letter-spacing:.16em;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .25s ease,visibility .25s ease,transform .25s ease,background .2s ease,border-color .2s ease;box-shadow:0 8px 28px rgba(15,21,17,.18);-webkit-backdrop-filter:none;backdrop-filter:none}
+    .works-top.is-visible{opacity:1;visibility:visible;transform:translateY(0)}
+    .works-top:hover{transform:none;background:var(--accent);border-color:var(--accent);color:var(--ink);box-shadow:0 8px 28px rgba(15,21,17,.18)}
+    .works-top:active{transform:none}
+    .works-top-arrow{display:grid;place-items:center;width:25px;height:25px;border:1px solid rgba(237,123,50,.7);color:var(--accent);font-size:18px;font-weight:500;transition:color .2s,border-color .2s,transform .2s}
+    .works-top:hover .works-top-arrow{color:var(--ink);border-color:rgba(41,37,33,.35);transform:translateY(-2px)}
+    @media(max-width:650px){.works-top{right:16px;bottom:16px;min-height:46px;padding:0 13px 0 10px}}
+    @media(prefers-reduced-motion:reduce){.works-top{transition:none}}
     .works-lightbox{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:30px;background:rgba(8,12,9,.94);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
     .works-lightbox.is-open{opacity:1;visibility:visible}
     .works-lightbox img{max-width:min(1200px,94vw);max-height:86vh;object-fit:contain;box-shadow:0 20px 70px rgba(0,0,0,.35)}
