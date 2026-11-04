@@ -78,12 +78,47 @@
         const preview = document.createElement("img"); preview.className = "image-preview"; preview.alt = "Предпросмотр изображения"; preview.src = resolveImageUrl(value(key)) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         const actions = document.createElement("div"); actions.className = "image-actions";
         const url = document.createElement("input"); url.type = "url"; url.placeholder = "https://example.com/photo.jpg"; url.value = value(key); url.dataset.key = key; url.dataset.image = "true";
-        const hint = document.createElement("small"); hint.textContent = "Вставь прямую ссылку на изображение (JPG, PNG или WebP). Предпросмотр обновится автоматически.";
+        const file = document.createElement("input"); file.type = "file"; file.accept = "image/jpeg,image/png,image/webp"; file.className = "image-file-input";
+        const upload = document.createElement("button"); upload.type = "button"; upload.className = "ghost upload-image"; upload.textContent = "Выбрать и загрузить фото";
+        const hint = document.createElement("small"); hint.textContent = "Фото загрузится в GitHub, ссылка автоматически сохранится и заменит изображение на сайте. JPG, PNG или WebP, до 4 МБ.";
         url.addEventListener("input",()=>{
           preview.src = resolveImageUrl(url.value) || "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
           $("#saved-state").textContent = "Есть несохранённые изменения";
         });
-        actions.append(url,hint); holder.append(preview,actions); wrap.append(title,holder);
+        upload.addEventListener("click",()=>file.click());
+        file.addEventListener("change",async()=>{
+          const selected = file.files && file.files[0];
+          if (!selected) return;
+          const types = {"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
+          if (!types[selected.type]) { showMessage("Поддерживаются только JPG, PNG и WebP.",true); file.value=""; return; }
+          if (selected.size > 4 * 1024 * 1024) { showMessage("Файл больше 4 МБ. Уменьши фотографию перед загрузкой.",true); file.value=""; return; }
+          upload.disabled=true; upload.textContent="Загружаю в GitHub…";
+          try {
+            const base64 = await new Promise((resolve,reject)=>{
+              const reader=new FileReader();
+              reader.onload=()=>resolve(String(reader.result).split(",")[1]);
+              reader.onerror=()=>reject(new Error("Не удалось прочитать фотографию."));
+              reader.readAsDataURL(selected);
+            });
+            const {data,error}=await db.functions.invoke("upload-image",{body:{key,fileName:selected.name,contentType:selected.type,base64}});
+            if (error) {
+              let detail=error.message || "Ошибка вызова функции";
+              try { const body=await error.context?.json?.(); if(body?.error) detail=body.error; } catch (_) {}
+              throw new Error(detail);
+            }
+            if (!data?.imageUrl) throw new Error(data?.error || "Сервер не вернул ссылку на фотографию.");
+            url.value=data.imageUrl;
+            preview.src=data.imageUrl;
+            content[key]=data.imageUrl;
+            await saveContent();
+            showMessage("Готово! Фото сохранено в GitHub, ссылка обновлена на сайте.");
+          } catch(error) {
+            showMessage("Не удалось загрузить фотографию: "+(error?.message || String(error)),true);
+          } finally {
+            upload.disabled=false; upload.textContent="Выбрать и загрузить фото"; file.value="";
+          }
+        });
+        actions.append(url,upload,file,hint); holder.append(preview,actions); wrap.append(title,holder);
       } else {
         const input = type === "textarea" ? document.createElement("textarea") : document.createElement("input");
         input.value = value(key); input.dataset.key = key;
