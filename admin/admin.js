@@ -92,13 +92,13 @@
           const ext = extensions[selected.type];
           if (!ext) { showMessage("Поддерживаются JPG, PNG, WebP и AVIF.", true); return; }
           if (selected.size > 20 * 1024 * 1024) { showMessage("Файл больше 20 МБ. Уменьши фотографию перед загрузкой.", true); return; }
-          let token = sessionStorage.getItem("armada_github_token");
+          let token = localStorage.getItem("armada_github_token");
           if (!token) {
             token = window.prompt("Вставь GitHub Fine-grained token с доступом Contents: Read and write только к репозиторию valbr-dev/visisite. Токен хранится только в этой вкладке до её закрытия.");
             if (!token) return;
             token = token.trim();
             if (!token) return;
-            sessionStorage.setItem("armada_github_token", token);
+            localStorage.setItem("armada_github_token", token);
           }
           upload.disabled = true; upload.textContent = "Загружаю…";
           try {
@@ -123,7 +123,7 @@
             });
             const result = await response.json().catch(()=>({}));
             if (!response.ok) {
-              if (response.status === 401 || response.status === 403) sessionStorage.removeItem("armada_github_token");
+              if (response.status === 401 || response.status === 403) localStorage.removeItem("armada_github_token");
               throw new Error(result.message || ("GitHub вернул ошибку " + response.status));
             }
             const imageUrl = "https://valbr-dev.github.io/visisite/" + path + "?v=" + Date.now();
