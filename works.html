@@ -18,6 +18,9 @@
     .works-hero:before{content:"";position:absolute;inset:0;background:url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2200&q=90") center 56%/cover no-repeat;transform:scale(1.025);animation:works-hero-in 1.3s cubic-bezier(.2,.7,.2,1) both}
     .works-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,19,15,.78),rgba(13,19,15,.12) 75%),linear-gradient(0deg,rgba(13,19,15,.78),transparent 68%)}
     .works-hero-content{position:relative;z-index:1;padding-top:150px;padding-bottom:76px}
+    .works-home-link{position:absolute;top:30px;left:0;display:inline-flex;align-items:center;gap:12px;padding:12px 18px;border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.09);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#fff;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;transition:background .25s,border-color .25s,transform .25s}
+    .works-home-link span{font-size:17px;line-height:1}
+    .works-home-link:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.8);transform:translateY(-2px)}
     .works-overline{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.75);font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
     .works-overline:before{content:"";width:28px;height:1px;background:var(--accent)}
     .works-hero h1{max-width:980px;margin:26px 0 22px;font-size:clamp(58px,10vw,132px);line-height:.88;letter-spacing:-.085em;font-weight:600}
@@ -179,6 +182,7 @@
   <main>
     <section class="works-hero" id="top">
       <div class="container works-hero-content">
+        <a class="works-home-link" href="index.html"><span aria-hidden="true">←</span> НА ГЛАВНУЮ</a>
         <div class="works-overline">АРМАДА / ПОРТФОЛИО</div>
         <h1>Наши<br><em>работы.</em></h1>
         <p class="works-hero-lead">Архитектура, строительство и пространства, в которых каждая деталь имеет значение. Посмотрите подборку проектов и решений.</p>
