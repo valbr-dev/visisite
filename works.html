@@ -130,7 +130,11 @@
     .works-reveal{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1)}
     .works-reveal.is-in{opacity:1;transform:none}
 
-    .work-spoiler{border-top:1px solid rgba(41,39,37,.2);border-bottom:1px solid rgba(41,39,37,.2)}
+
+    .work-spoiler-content .work-media-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+    .work-spoiler-content .work-photo,.work-spoiler-content .work-photo:first-child{height:300px;grid-row:auto;grid-column:auto}
+    @media(max-width:700px){.work-spoiler-content .work-media-grid{grid-template-columns:1fr 1fr}.work-spoiler-content .work-photo,.work-spoiler-content .work-photo:first-child{height:190px}.work-spoiler-content .work-photo:first-child{grid-column:1/-1;height:250px}}
+\n    .work-spoiler{border-top:1px solid rgba(41,39,37,.2);border-bottom:1px solid rgba(41,39,37,.2)}
     .work-spoiler-summary{display:grid;grid-template-columns:76px 1fr 58px;align-items:center;gap:24px;padding:30px 8px;list-style:none;cursor:pointer;transition:padding .35s ease}
     .work-spoiler-summary::-webkit-details-marker{display:none}
     .work-spoiler-summary:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
@@ -414,5 +418,8 @@
       }
     })();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="works-content.js"></script>
 </body>
 </html>
