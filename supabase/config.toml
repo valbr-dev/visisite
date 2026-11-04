@@ -1,0 +1,4 @@
+# Function-level configuration for Supabase Edge Functions.
+# The upload-image handler validates the user's session itself with Supabase Auth.
+[functions.upload-image]
+verify_jwt = false
