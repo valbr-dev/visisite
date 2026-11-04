@@ -33,7 +33,16 @@ Deno.serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const legacyAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const publishableKeysRaw = Deno.env.get("SUPABASE_PUBLISHABLE_KEYS");
+    let publishableKey = "";
+    if (publishableKeysRaw) {
+      try {
+        const keys = JSON.parse(publishableKeysRaw);
+        publishableKey = Object.values(keys).find((item) => typeof item === "string") as string || "";
+      } catch (_) {}
+    }
+    const supabaseAnonKey = legacyAnonKey || publishableKey;
     const githubToken = Deno.env.get("GITHUB_TOKEN");
     const adminEmail = Deno.env.get("ADMIN_EMAIL")?.trim().toLowerCase();
     if (!supabaseUrl || !supabaseAnonKey || !githubToken || !adminEmail) {
