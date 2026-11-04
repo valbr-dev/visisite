@@ -77,15 +77,6 @@
     if(count)count.textContent=String(valid.length).padStart(2,"0");
     document.querySelectorAll(".work-spoiler-section").forEach(section=>section.remove());
     const sampleVideos=document.querySelector(".works-video-section");if(sampleVideos)sampleVideos.remove();
-    const details=valid.map((p,i)=>{
-      const id=sectionIds[i],images=p.images.filter(Boolean).slice(0,15);
-      const specs=[["area","Площадь"],["floors","Этажность"],["format","Формат"],["style","Стиль / назначение"]].filter(([key])=>p[key]);
-      const embed=videoEmbed(p.videoUrl);
-      const category=categoryNames[p.category]||"ПРОЕКТ";
-      return '<section class="work-detail work-spoiler-section" id="'+id+'"><div class="container"><details class="work-spoiler"><summary class="work-spoiler-summary"><span class="work-spoiler-number">'+String(i+1).padStart(2,"0")+'</span><span class="work-spoiler-title"><small>'+category+'</small><strong>'+escapeHtml(p.title)+'</strong><em>'+escapeHtml(p.subtitle||p.area||"Портфолио АРМАДА")+'</em></span><span class="work-spoiler-toggle" aria-hidden="true">+</span></summary><div class="work-spoiler-content"><div class="work-detail-head works-reveal"><div><span class="work-detail-number">'+String(i+1).padStart(2,"0")+' / '+category+'</span><h2>'+escapeHtml(p.title)+'</h2></div><div><p>'+escapeHtml(p.description||"")+'</p>'+(specs.length?'<div class="work-specs">'+specs.map(([key,label])=>'<div><strong>'+escapeHtml(p[key])+'</strong><span>'+label+'</span></div>').join("")+'</div>':"")+'</div></div>'+(images.length?'<div class="work-media-grid">'+images.map((src,j)=>'<figure class="work-photo works-reveal"><img src="'+escapeHtml(src)+'" alt="'+escapeHtml(p.title)+' — фото '+(j+1)+'" loading="lazy"></figure>').join("")+'</div>':"")+(embed?'<div class="work-video-row works-reveal"><div class="work-video"><iframe src="'+escapeHtml(embed)+'" title="Видео проекта '+escapeHtml(p.title)+'" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><div class="work-video-copy"><span class="section-kicker">ВИДЕО / ПРОЕКТ</span><h3>'+escapeHtml(p.title)+'</h3><p>Видеоматериал проекта.</p><span class="work-video-label">ВИДЕООБЗОР</span></div></div>':"")+'</div></details></div></section>';
-    }).join("");
-    const quote=document.querySelector(".works-quote");
-    quote?.insertAdjacentHTML("beforebegin",details);
     document.querySelectorAll(".works-filter").forEach(button=>button.addEventListener("click",()=>{
       const filter=button.dataset.filter;
       document.querySelectorAll(".works-card").forEach(card=>{card.hidden=filter!=="all"&&card.dataset.category!==filter;});
