@@ -209,6 +209,22 @@
       .work-card-spoiler .work-photo,.work-card-spoiler .work-photo:first-child{height:165px}
       .work-card-spoiler .work-photo:first-child{grid-column:auto}
     }
+\n
+    /* Full-width project covers, preserving each photograph's original proportions. */
+    .works-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+    .work-card-spoiler{width:100%;min-width:0}
+    .work-card-summary,.work-card-spoiler:nth-child(3n) .work-card-summary{min-height:0}
+    .work-card-spoiler .works-card-media{position:relative;inset:auto;width:100%;height:auto;overflow:hidden}
+    .work-card-spoiler .works-card-media img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;transform:none}
+    .work-card-spoiler .works-card-media:after{position:absolute;inset:0;content:"";background:linear-gradient(0deg,rgba(25,23,21,.78),transparent 52%),linear-gradient(90deg,rgba(25,23,21,.12),transparent 45%);pointer-events:none}
+    .work-card-spoiler .works-card-content{inset:auto 0 0;padding:clamp(18px,3vw,38px)}
+    .work-card-spoiler .works-card h3{max-width:760px}
+    @media(max-width:700px){
+      .works-grid{gap:18px}
+      .work-card-summary,.work-card-spoiler:nth-child(3n) .work-card-summary{min-height:0}
+      .work-card-spoiler .works-card-media img{width:100%;height:auto;object-fit:contain}
+      .work-card-spoiler .works-card-content{padding:18px}
+    }
 \n  </style>
 </head>
 <body class="works-page">
